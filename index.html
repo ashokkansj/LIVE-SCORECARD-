@@ -805,4 +805,115 @@
             });
 
             document.querySelectorAll('.menu-list li').forEach((item, i) => {
-                item.classList.t
+                item.classList.toggle('active', i === index);
+            });
+
+            highlightActivePagination(index);
+        }
+
+        function scrollMenu(direction) {
+            let menu = document.getElementById("menuList");
+            let items = document.querySelectorAll(".menu-list li");
+            let itemWidth = items[0].offsetWidth + 10;
+            let maxIndex = items.length - 1;
+
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            showSection(currentIndex);
+            menu.scrollTo({ left: currentIndex * itemWidth, behavior: 'smooth' });
+        }
+
+        function updatePagination() {
+            let pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            document.querySelectorAll(".menu-list li").forEach((_, index) => {
+                let span = document.createElement("span");
+                span.onclick = () => showSection(index);
+                pagination.appendChild(span);
+            });
+
+            highlightActivePagination(0);
+        }
+
+        function highlightActivePagination(index) {
+            let dots = document.querySelectorAll(".pagination span");
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        updatePagination();
+        
+        
+        </script>
+  <script>
+        
+        
+        function handleImageUpload(uploadId, imgId, storageKey) {
+            const uploadInput = document.getElementById(uploadId);
+            const imgElement = document.getElementById(imgId);
+            const savedImage = localStorage.getItem(storageKey);
+            if (savedImage) {
+                imgElement.src = savedImage;
+            }
+
+            uploadInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imgElement.src = e.target.result;
+                        localStorage.setItem(storageKey, e.target.result); 
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        handleImageUpload('left-upload', 'left-image', 'leftCircleImage');
+        handleImageUpload('right-upload', 'right-image', 'rightCircleImage');
+       
+  
+    </script>
+<script>
+   
+    function handleImageUpload(uploadId, imgId, storageKey) {
+        const uploadInput = document.getElementById(uploadId);
+        const imgElement = document.getElementById(imgId);
+
+        const savedImage = localStorage.getItem(storageKey);
+        if (savedImage) {
+            imgElement.src = savedImage;
+        }
+
+        uploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imgElement.src = e.target.result;
+                    localStorage.setItem(storageKey, e.target.result); 
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    handleImageUpload('strike1-upload', 'strike1-image', 'strike1Image');
+    handleImageUpload('strike2-upload', 'strike2-image', 'strike2Image');
+    handleImageUpload('bowler-indicator-upload', 'bowler-indicator-image', 'bowlerIndicatorImage');
+     handleImageUpload('batsman1-upload', 'batsman1-image', 'batsman1Image');
+        handleImageUpload('batsman2-upload', 'batsman2-image', 'batsman2Image');
+        handleImageUpload('bowler-upload', 'bowler-image', 'bowlerImage');
+    
+    
+    
+    
+    
+    
+    
+    
+</script>
+</body>
+</html>
