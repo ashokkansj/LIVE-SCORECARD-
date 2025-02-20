@@ -1,249 +1,808 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricket Scorecard</title>
+    <title>Swipe Up Menu with Horizontal Scroll</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: green; /* Home screen background */
             font-family: Arial, sans-serif;
+            background-color: skyblue;
         }
 
-        /* Header section */
-        .header {
-            background-color: blue;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-radius: 30px;
-            margin: 20px;
-        }
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    background-color: transparent;
+    width: 100px;  /* ✅ Pure screen width */
+    box-sizing: border-box;
+    position: absolute;
+    height: 40px;
+    margin: 10p
+    
+}
 
-        /* Top Boxes Section */
-        .top-section {
+.left-box {
+    width: 70px;  /* ✅ Fixed width for left box */
+    height: 25px;
+    font-size: 14px;
+    display: flex;
+    margin-top: -126px;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    border: 2px solid red;
+    color: white;
+    border-bottom-left-radius: 20px; 
+    border-top-left-radius: 20px;
+    
+    left: -60px;
+    position: absolute;
+    
+}
+
+.right-box {
+    flex-grow: 1;  /* ✅ Bacha hua pura space le */
+    height: 25px;
+    background-color: black;
+    border: 2px solid mediumvioletred;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: -126px;
+    right: -200px;
+    width: 290px;
+    border-bottom-right-radius: 20px; 
+    border-top-right-radius: 20px;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.marquee {
+    font-size: 14px;
+    color: yellow;
+    width: 290px;  /* ✅ Marquee text full width lega */
+    overflow: hidden;
+    display: block;
+    position: absolute;
+   
+}
+  
+  
+  
+  /* ✅ Live Balls Box - Center Align */
+.live-balls-container {
+    display: flex;
+    justify-content: center; /* ✅ Center me laye */
+    margin-top: -26px; /* ✅ Thoda gap de left-right box ke niche */
+}
+
+.live-balls-box {
+    background-color: black;
+    color: yellow;
+    border: 2px solid yellow;
+    width: 160px;
+    border-radius: 20px;
+    height: 65px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 16px;
+    font-weight: bold;
+}
+        
+             /* Runs Section */
+        .runs-container {
+          position: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
+            gap: 0;
+            margin: 32px auto;
         }
 
-        .small-box {
-            background-color: blue;
-            border: 2px solid white;
+.runs-container {
+    position: relative; /* Container ko relative rakhna zaroori hai */
+}
+
+.small-box {
+    width: 60px;
+    height: 40px;
+    background-color: #333; /* Light Black */
+    border: 0px solid white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; 
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1006;
+    position: absolute;
+    top: 0.5px;
+    margin-left: 147px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-verflow: ellipsis;
+            
+}
+        /* Teams Box */
+        .teams-box {
+            background-color: #4869D2;
+            border: 3px solid white;
+            width: 280px;
+            height: 43px;
+            display: flex;
+            align-items: centre;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            text-shadow: 3px 3px 6px black;
             color: white;
-            text-align: center;
-            padding: 5px;
-            width: 60px;
-            height: 18px; /* Reduced height */
-            border-radius: 5px;
+            position: absolute;
+            z-index: 0;
+            padding-left: 27px;
+           
         }
+        
+/* Left Wala Teams Box Ko Peeche Shift Karna */
+.teams-box:first-child {
+  position: absolute;
+ margin-right: -10px; 
+ z-index: 1002;
+ align-items: centre;
+ justify-content: left;
 
-        .large-box {
-            background-color: black;
-            border: 2px solid blue;
-            color: yellow;
-            text-align: center;
-            padding: 5px;
-            width: 350px;
-            height: 18px;
-            border-radius: 5px;
+ /* Left wala Teams Box ko Runs Box ke peeche shift karega */
+ 
+ 
+ 
+}
+
+.teams-box:last-child {
+    position: absolute;
+    left: 163px; /* Runs Box ke peeche shift karega */
+    z-index: 1005;
+    width: 70px;
+    bottom: -25px;
+}
+        /* Circle Style */
+        .circle {
+            width: 70px;
+            height: 70px;
+            background-color:transparent;
+            border: transparent;
+            border-radius: 0;
+            position: absolute;
             overflow: hidden;
-            white-space: nowrap;
+            cursor: pointer;
         }
 
-        .large-box marquee {
-            display: block;
-            line-height: 30px;
+        .left-circle {
+            left: -30px;
+            bottom: -14px;
+            z-index: 1006 ;
         }
 
-        .new-rect-box {
-            background-color: black;
-            border: 4px solid red;
-            border-radius: 15px;
-            width: 270px;
-            height: 55px;
-            margin-top: 1px; /* Move box 5px upward */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
+        .right-circle {
+            right: -35px;
+            bottom: -14px;
+            z-index: 1008;
         }
 
-        /* Scorecard Section */
-        .scorecard {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            border: 4px solid red;
-            height: 300px;
-            border-radius: 10px;
-            margin-top: -190px;
-            padding: 20px;
-        }
-
-        .scorecard-box {
-            text-align: center;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .scorecard-box.left,
-        .scorecard-box.right {
-            background-color: lightgray;
-            border: 2px solid black;
-            width: calc(30% + 8px);
-            border-radius: 15px;
-            margin-top: 150px;
-        }
-
-        .scorecard-box.middle {
-            background-color: black;
-            color: white;
-            border: 6px solid yellow; /* Updated yellow border */
-            border-radius: 30px; /* Updated border radius */
-            width: 70%;
-            height: 50px;
-            margin-top: 150px; /* Adjusted upward position */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 36px; /* Increased font size */
-            font-weight: bold; /* Made font bold */
-        }
-
-        /* Menu Bar Positioned at the Bottom */
-        .menu-bar {
+        .circle img {
             width: 100%;
-            height: 20vh;
-            background-color: #333;
-            color: white;
-            padding: 20px 10px;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-            position: fixed;
-            bottom: -20vh;
-            left: 0;
-            z-index: 1000;
-            transition: bottom 0.5s ease;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .menu-bar.open {
-            bottom: 0;
-        }
-
-        .menu-bar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .menu-bar li {
-            padding: 15px 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            border-bottom: 1px solid #444;
-        }
-
-        .menu-bar li:hover {
-            background-color: #555;
-        }
-
-        /* Toggle Button */
-        .menu-toggle-btn {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background-color: #ffffff;
-            color: black;
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            z-index: 1001;
-        }
-
-        .menu-toggle-btn.close-btn {
+        /* Hidden File Input */
+        input[type="file"] {
             display: none;
         }
 
-        /* Pencil Icon */
-        .pencil-icon {
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            font-size: 24px;
+        /* Runs Box */
+        .runs-box {
+            background-color: #890E4F;
+            border: 3px solid green;
+            border-radius: 15px;
+            width: 95px;
+            height: 52px;
+            text-align: center;
+            line-height: 50px;
             color: white;
+            font-size: 30px;
+            font-weight: bold;
+            z-index: 1007;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            text-verflow: ellipsis;
+            
+        }
+        
+      
+        
+        /* Player Boxes Section */
+        .three-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 36px auto;
+            width: 300px;
+            height: 20px;
+            border: 6px green;
+           
+           
+           
+        }
+
+        .box {
+            background-color: transparent;
+           
+            width: 120px;
+            border: 6px blue;
+            border-radius: 10px;
+            height: 70px;
+            padding: 10px;
+            display: flex;
+            right: 30px;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            position: relative;
+            margin-top: 12px;
+        }
+
+
+
+
+
+
+
+        /* Circles for Player Boxes - Transparent */
+        .player-circle {
+            width: 42px;
+            height: 67px;
+            background-color: transparent;  /* Transparent background */
+            border: 2px solid transparent;  /* Transparent border */
+            border-radius: 10%;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .player-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Small Rectangular Box with Gradient */
+        .small-rect {
+            background: midnightblue;
+            width: 105px;
+            height:50px;               
+            border-radius: 7px;
+            position: absolute;
+            bottom: 0px;
+            margin: 0px;
+            left: -17px;
+            display: flex;
+            flex-direction: column;     
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;               
+        }
+
+        .small-rect .text-container {
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+
+        /* Red Rectangular Box Behind Text */
+        .text-background {
+            background-color: red;       /* Background Color */
+            border-top-right-radius: 7px;
+            border-top-left-radius: 7px;         /* Rounded Corners */
+            width: 105px;                /* Box Width */
+            height: 26px;                /* Box Height */
+            position: absolute; 
+            /* Positioned Behind the Text */
+            z-index: 0;                  /* Behind the Text */
+            
+            
+            
+        }
+
+        .small-rect p {
+            position: relative;          /* Keep Text Above the Red Box */
+            z-index: 1;                  /* Ensure Text is on Top */
+            margin: 5px 0;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-verflow: ellipsis;
+            
+        }
+
+      
+      
+      
+      /* 📌 Bowler ke Photo ke Aage Ball Icon */
+.bowler-icon {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+}     
+     /* Strike Indicator Box with Image */
+    .strike-indicator {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        position: absolute;
+        right: 5px;
+        background: transparent;
+        top: 10px;
+        right: -6px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .strike-indicator img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Bowler Round Indicator with Image */
+    .bowler-indicator {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        position: absolute;
+        top: 10px;
+        right: -6px;
+        overflow: hidden;
+        cursor: pointer;
+        background: transparent;
+    }
+
+    .bowler-indicator img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Hide File Inputs */
+    input[type="file"] {
+        display: none;
+    }
+  
+      
+      
+      
+      
+      
+      /* TIMELINE Box */
+        .timeline-box {
+            background-color: red;
+            border-radius: 50px;
+            border: 3px solid white;
+            width: 350px;
+            height: 40px;
+            left: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: white;
+            font-weight: bold;
+            padding-left: 2px
+            font-size: 13px;
+            margin: 110px auto;
+            z-index: 1;
+            position: absolute;
+        }
+
+/* New Rectangular Box Below Timeline */
+        .new-rect-box {
+            width: 350px;
+            height: 150px;
+            position: absolute;
+            z-index: 0;
+            background-color: blue;      /* Blue Background */
+            border: 3px solid white;     /* White Border */
+            border-radius: 6px;
+            left: 2px;
+            margin: 140px auto;           /* 15px Gap Below Timeline */
+          
+        }
+        
+      
+        
+        
+        
+        
+        
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            bottom: 120px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        .menu-btn span {
+            width: 35px;
+            height: 5px;
+            margin: 5px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Cross Animation */
+        .menu-btn.active span:nth-child(1) {
+            transform: translateY(16px) rotate(45deg);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Menu Container */
+        .menu-container {
+            position: fixed;
+            bottom: -200px;
+            height: 180px;
+            left: 0;
+            width: 350px;
+            left: 4px;
+            background-color: #2E3748;
+            padding: 10px 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            transition: transform 0.4s ease-in-out;
+            text-align: center;
+        }
+
+        .menu-container.show {
+            transform: translateY(-200px);
+        }
+
+        /* Horizontal Scroll Menu */
+        .menu-list {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 0;
+            margin: 0px 10px;
+        }
+
+        .menu-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Menu Items */
+        .menu-list li {
+            list-style: none;
+            padding: 7px 20px;
+            margin: 0 5px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            border: 3px solid yellow;
+            background-color: red;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .menu-list li.active {
+            background-color: darkblue;
+            font-weight: bold;
+        }
+
+        .menu-list li:hover {
+            background-color: black;
+        }
+
+        /* Navigation Buttons */
+        .menu-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
             cursor: pointer;
             z-index: 1002;
         }
+
+        .menu-nav.left {
+            left: 5px;
+        }
+
+        .menu-nav.right {
+            right: 5px;
+        }
+
+        /* Pagination Dots */
+        .pagination {
+            text-align: center;
+            margin-top: 127px;
+        }
+
+        .pagination span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 4px;
+            background-color: gray;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pagination span.active {
+            background-color: white;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 60px;
+            background-color: skyblue;
+            margin: 0px;
+            border-radius: 5px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Top Section -->
-    <div class="top-section">
-        <div class="small-box">UPDATE</div>
-        <div class="large-box">
-            <marquee>ALL MATCHES UPDATE HERE</marquee>
+
+    <!-- Menu Button -->
+    <div class="menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="menu-container" id="menu">
+        <button class="menu-nav left" onclick="scrollMenu(-1)">&#10094;</button>
+
+        <ul class="menu-list" id="menuList">
+            <li class="active" onclick="showSection(0)">Home</li>
+            <li onclick="showSection(1)">Live</li>
+            <li onclick="showSection(2)">Matches</li>
+            <li onclick="showSection(3)">Teams</li>
+            <li onclick="showSection(4)">Settings</li>
+        </ul>
+
+        <button class="menu-nav right" onclick="scrollMenu(1)">&#10095;</button>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+  
+  
+  
+    <!-- Content Sections -->
+    <div class="content-section active" id="section0">
+        
+        <div class="top-bar"> 
+    <div class="left-box">UPDATE</div> 
+    <div class="right-box">
+        <marquee class="marquee" behavior="scroll" direction="left">
+            INDIA HAVE WON THE TOSS AND OPT TO BAT. IDFC FIRST BANK 3RD ODI LIVE FROM AHMEDABAD.
+        </marquee> 
+    </div> 
+  </div>
+  
+ 
+
+<!-- ✅ Live Balls Box (Center Me Dikhega) -->
+<div class="live-balls-container">
+    <div class="live-balls-box">LIVE BALLS</div>
+
+
+    </div>
+
+    
+   <!-- ✅ Runs Section (Centered Below Live Balls Box) -->
+<div class="runs-container">
+    
+    <!-- Left Teams Box -->
+    <div class="teams-box">
+        <label class="circle left-circle" for="left-upload">
+            <img id="left-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="left-upload" accept="image/*">
+        XYZ
+    </div>
+
+    <!-- Runs Box -->
+    <div class="runs-box">120-7</div>
+    <div class="small-box">19.1</div>
+
+    <!-- Right Teams Box -->
+    <div class="teams-box">
+        <label class="circle right-circle" for="right-upload">
+            <img id="right-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="right-upload" accept="image/*">
+   
+   
+  
+     
+   </div>
+     
+   </div>
+   
+   
+   
+    <!-- Player Boxes with Indicators -->
+<div class="three-boxes">
+    <div class="box">
+        <label class="player-circle" for="batsman1-upload">
+            <img id="batsman1-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="batsman1-upload" accept="image/*">
+        
+        
+           
+        
+       
+        
+        <!-- Strike Indicator for Batsman 1 (Image Upload) -->
+        <label class="strike-indicator" for="strike1-upload">
+            <img id="strike1-image" src="" alt="Upload Strike Indicator">
+        </label>
+        <input type="file" id="strike1-upload" accept="image/*">
+
+        <div class="small-rect">
+            <div class="text-container">
+                <div class="text-background"></div> 
+                <p>BATSMAN 1</p>
+            </div>
+            <p>00 (00)</p>  
         </div>
     </div>
 
-    <div class="new-rect-box">LIVE BALLS</div>
+    <div class="box">
+        <label class="player-circle" for="batsman2-upload">
+            <img id="batsman2-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="batsman2-upload" accept="image/*">
+        
+        <!-- Strike Indicator for Batsman 2 (Image Upload) -->
+        <label class="strike-indicator" for="strike2-upload">
+            <img id="strike2-image" src="" alt="Upload Strike Indicator">
+        </label>
+        <input type="file" id="strike2-upload" accept="image/*">
 
-    <!-- Pencil Icon -->
-    <div class="pencil-icon" onclick="editAction()">✏️</div>
-
-    <!-- Scorecard Section -->
-    <div class="scorecard">
-        <div class="scorecard-box left">RCB</div>
-        <div class="scorecard-box middle">120-9</div>
-        <div class="scorecard-box right">CSK</div>
+        <div class="small-rect">
+            <div class="text-container">
+                <div class="text-background"></div> 
+                <p>BATSMEN 2</p>
+            </div>
+            <p>00 (00)</p>  
+        </div>
     </div>
 
-    <div class="menu-bar" id="menuBar">
-        <ul>
-            <li>Home</li>
-            <li>Scoreboard</li>
-            <li>Players</li>
-            <li>Settings</li>
-        </ul>
-    </div>
-    <button class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleMenu()">☰</button>
-    <button class="menu-toggle-btn close-btn" id="menuCloseBtn" onclick="toggleMenu()">❌</button>
+    <div class="box">
+        <label class="player-circle" for="bowler-upload">
+            <img id="bowler-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="bowler-upload" accept="image/*">
+        
+        <!-- Bowler Round Indicator (Image Upload) -->
+        <label class="bowler-indicator" for="bowler-indicator-upload">
+            <img id="bowler-indicator-image" src="" alt="Upload Bowler Indicator">
+        </label>
+        <input type="file" id="bowler-indicator-upload" accept="image/*">
 
-    <!-- Header -->
-    <div class="header">
-        <h1>Cricket Scorecard</h1>
+        <div class="small-rect">
+            <div class="text-container">
+                <div class="text-background"></div> 
+                <p>BOWLER</p>
+            </div>
+            <p>0-00 (00)</p>  
+   
+   
+   
+  
+ 
+    
+        </div>
+     
+     </div>
+    
+    
+    
+    <!-- TIMELINE Box -->
+    <div class="timeline-box">TIMELINE</div>
+
+    <!-- New Rectangular Box Below Timeline -->
+    <div class="new-rect-box"></div>
+     
+     
+     
+      </div> 
+    </div>
+  </div>
+    
+    
+    <div class="content-section" id="section1">
+        <h2>Live Section</h2>
+    </div>
+    <div class="content-section" id="section2">
+        <h2>Matches Section</h2>
+    </div>
+    <div class="content-section" id="section3">
+        <h2>Teams Section</h2>
+    </div>
+    <div class="content-section" id="section4">
+        <h2>Settings Section</h2>
     </div>
 
+
+
+
+
+
+    <!-- JavaScript Code -->
     <script>
-        function toggleMenu() {
-            const menuBar = document.getElementById('menuBar');
-            const toggleBtn = document.getElementById('menuToggleBtn');
-            const closeBtn = document.getElementById('menuCloseBtn');
+        let currentIndex = 0;
 
-            if (menuBar.classList.contains('open')) {
-                menuBar.classList.remove('open');
-                toggleBtn.style.display = 'block';
-                closeBtn.style.display = 'none';
-            } else {
-                menuBar.classList.add('open');
-                toggleBtn.style.display = 'none';
-                closeBtn.style.display = 'block';
-            }
-        }
+        document.getElementById("menuBtn").addEventListener("click", function () {
+            this.classList.toggle("active");
+            document.getElementById("menu").classList.toggle("show");
+        });
 
-        function editAction() {
-            alert("Edit action triggered!");
-        }
-    </script>
+        function showSection(index) {
+            currentIndex = index;
 
-</body></html>
+            document.querySelectorAll('.content-section').forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+
+            document.querySelectorAll('.menu-list li').forEach((item, i) => {
+                item.classList.t
