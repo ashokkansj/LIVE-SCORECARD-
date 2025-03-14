@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swipe Up Menu with Horizontal Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            
+            background-color: skyblue;
+            overflow: hidden;
+        }
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    background-color: transparent;
+    width: 100px;  /* ✅ Pure screen width */
+    box-sizing: border-box;
+    position: absolute;
+    height: 40px;
+    margin: 10p
+    
+}
+
+.left-box {
+    width: 70px;  /* ✅ Fixed width for left box */
+    height: 25px;
+    font-size: 14px;
+    display: flex;
+    margin-top: -126px;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    border: 2px solid red;
+    color: white;
+    border-bottom-left-radius: 20px; 
+    border-top-left-radius: 20px;
+    
+    left: -60px;
+    position: absolute;
+    
+}
+
+.right-box {
+    flex-grow: 1;  /* ✅ Bacha hua pura space le */
+    height: 25px;
+    background-color: black;
+    border: 2px solid mediumvioletred;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: -126px;
+    right: -200px;
+    width: 290px;
+    border-bottom-right-radius: 20px; 
+    border-top-right-radius: 20px;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.marquee {
+    font-size: 14px;
+    color: yellow;
+    width: 290px;  /* ✅ Marquee text full width lega */
+    overflow: hidden;
+    display: block;
+    position: absolute;
+   
+}
+  
+  
+  
+  /* ✅ Live Balls Box - Center Align */
+.live-balls-container {
+    display: flex;
+    justify-content: center; /* ✅ Center me laye */
+    margin-top:; /* ✅ Thoda gap de left-right box ke niche */
+}
+
+.live-balls-box {
+    background-color: black;
+    color: yellow;
+    border: 4px solid yellow;
+    width: 140px;
+    border-radius: 20px;
+    height: 60px;
+    position: relative;
+    top: -27px;
+    left: 40px;
+}
+        
+             /* Runs Section */
+        .runs-container {
+          position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5;
+            margin: 8px auto;
+        }
+
+.runs-container {
+    position: relative; /* Container ko relative rakhna zaroori hai */
+}
+
+.small-box {
+    width: 60px;
+    height: 40px;
+    background-color: transparent; /* Light Black */
+    border: 0px 
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; 
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1006;
+    position: absolute;
+    top: -10px;
+    margin-left: 147px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-verflow: ellipsis;
+            
+}
+        /* Teams Box */
+        .teams-box {
+            background-color: transparent;
+            border: transparent;
+            width: 280px;
+            height: 43px;
+            display: flex;
+            align-items: centre;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            text-shadow: 3px 3px 6px black;
+            color: white;
+            position: absolute;
+            z-index: 0;
+            padding-left: 27px;
+           
+        }
+        
+/* Left Wala Teams Box Ko Peeche Shift Karna */
+.teams-box:first-child {
+  position: absolute;
+ margin-right: -10px; 
+ z-index: 1002;
+ align-items: centre;
+ justify-content: left;
+
+ /* Left wala Teams Box ko Runs Box ke peeche shift karega */
+ 
+ 
+ 
+}
+
+.teams-box:last-child {
+    position: absolute;
+    left: 163px; /* Runs Box ke peeche shift karega */
+    z-index: 1005;
+    width: 70px;
+    bottom: -25px;
+}
+        /* Circle Style */
+        .circle {
+            width: 180px;
+            height: 70px;
+            background-color:transparent;
+            border: transparent;
+            border-radius: 0;
+            position: absolute;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .left-circle {
+            left: -30px;
+            bottom: -14px;
+            z-index: 1006 ;
+        }
+
+        .right-circle {
+            right: -35px;
+            bottom: -14px;
+            z-index: 1008;
+        }
+
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hidden File Input */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Runs Box */
+        .runs-box {
+            background-color: transparent;
+            border: 3px solid green;
+            border-radius: 15px;
+            width: 90px;
+            height: 55px;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            z-index: 1007;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            text-verflow: ellipsis;
+            
+        }
+        
+  
+      
+      
+      
+      
+      
+      /* TIMELINE Box */
+        .timeline-box {
+            background-color: transparent;
+            border-radius: 0px;
+            border: transparent;
+            width: 352px;
+            height: 38px;
+            left: 5px;
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            color: white;
+            font-weight: bold;
+            padding-left: 0px
+            font-size: 13px;
+            margin: 68px auto;
+            z-index: 1;
+            position: absolute;
+            top: 100px
+        }
+
+/* New Rectangular Box Below Timeline */
+        .new-rect-box {
+            width: 350px;
+            height: 130px;
+            position: absolute;
+            z-index: 0;
+            background-color: blue;      /* Blue Background */
+            border: 3px solid white;     /* White Border */
+            border-radius: 6px;
+            left: 0px;
+            margin: -505px auto;           /* 15px Gap Below Timeline */
+          
+        }
+        
+        
+        
+        
+
+/* Overlapping Container */
+.overlap-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+}
+
+/* Common Box Styling */
+.custom-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px;
+    overflow: hidden;
+    cursor: pointer;
+    position: absolute;
+}
+
+/* BRD 1 (Base Layer) */
+.brd {
+    background-color: blue;
+    width: 104px;
+    height: 100px;
+    top: -24px;
+    left: -127px;
+    z-index: 1;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* BET 1 (Above BRD) */
+.bet {
+    background-color: red;
+    width: 88px;
+    height: 88px;
+    top: -18px;
+    left: -122px;
+    z-index: 2;
+    border: 3px solid yellow;
+}
+
+/* Indicator 3 (Top Layer) */
+.indicator {
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    top: -7px;
+    left: -70px;
+    border: 3px solid white;
+    z-index: 3;
+}
+
+/* Image Styling */
+.custom-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hide File Input */
+input[type="file"] {
+    display: none;
+}
+        
+        
+        
+      /* DRD 1 (New Base Layer) */
+.drd {
+    background-color: purple;
+    width: 104px;
+    height: 100px;
+    top: -223px;
+    left: -8px;
+    z-index: 1;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* DET 1 (Above DRD) */
+.det {
+    background-color: orange;
+    width: 88px;
+    height: 88px;
+    top: -215px;
+    left: -5px;
+    z-index: 2;
+    border: 3px solid yellow;
+}
+
+/* Indi 1 (Top Layer) */
+.indi {
+    background-color: green;
+    width: 40px;
+    height: 40px;
+    top: -210px;
+    left: 50px;
+    border: 3px solid white;
+    z-index: 3;
+}  
+     
+   
+   
+    /* KT1 (New Base Layer) */
+.kt {
+    background-color: darkblue;
+    width: 104px;
+    height: 100px;
+    top: -423px;
+    left: 115px;
+    z-index: 1;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* KL1 (Above KT1) */
+.kl {
+    background-color: darkred;
+    width: 88px;
+    height: 88px;
+    top: -416px;
+    left: 122px;
+    z-index: 2;
+    border: 3px solid lime;
+}
+
+/* KM1 (Top Layer) */
+.km {
+    background-color: green;
+    width: 40px;
+    height: 40px;
+    top: -408px;
+    left: 166px;
+    border: 3px solid white;
+    z-index: 3;
+    
+} 
+     
+     
+     
+        
+        
+        
+        
+        
+         /* ✅ Live Balls Box Image Styling */
+.live-balls-box .upload-box img {
+    width: 140px; /* Live Balls Box ke liye specific width */
+    height: 60px; /* Specific height */
+    border-radius: 15px; /* Specific border-radius */
+    object-fit: cover;
+}
+
+/* ✅ Runs Box Image Styling */
+.runs-box .upload-box img {
+    width: 90px; /* Runs Box ke liye specific width */
+    height: 57px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* ✅ Timeline Box Image Styling */
+.timeline-box .upload-box img {
+    width: 357px; /* Timeline ke liye full width */
+    height: 43px; /* Specific height */
+    border-radius: 0px; /* More rounded corners */
+    object-fit: cover;
+    border: transparent;
+    
+    
+}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      .teams-selection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+.team-box {
+    width: 100px;
+    height: 45px;
+    background-color: blue;
+    color: yellow;
+    border: 3px solid green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.team-box.active {
+    background-color: black;
+    color: white;
+}
+
+.players-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.players-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.player-box {
+    width: 40px;
+    height: 60px;
+    background-color: blue;
+    border: 3px solid red;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.player-text {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+}
+
+.players-container:first-child .player-text {
+    right: -50px;
+}
+
+.players-container:last-child .player-text {
+    left: -50px;
+}
+
+.player-upload {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+.player-upload img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+input[type="file"] {
+    display: none;
+}
+ 
+      .eye-icon {
+    position: absolute;
+    left: 40px; /* Left navigation button ke just right me */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1002;
+}
+
+.eye-icon img {
+    width: 20px;
+    height: 20px;
+}
+        
+        
+
+
+
+ 
+     
+     
+     
+        
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            bottom: 120px;
+            right: 20px;
+            width: 37px;
+            height: 37px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+            border: 2px solid white;
+            
+        }
+
+        .menu-btn span {
+            width: 35px;
+            height: 7px;
+            margin: 5px;
+            
+            background-color: white;
+            border-radius: 3px;
+            border: 2px solid white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Cross Animation */
+        .menu-btn.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: translateY(-18px) rotate(-45deg);
+        }
+
+        /* Menu Container */
+        .menu-container {
+            position: fixed;
+            bottom: -200px;
+            height: 180px;
+            left: 0;
+            width: 350px;
+            left: 4px;
+            background-color: #2E3748;
+            padding: 10px 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            transition: transform 0.4s ease-in-out;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .menu-container.show {
+            transform: translateY(-200px);
+        }
+
+        /* Horizontal Scroll Menu */
+        .menu-list {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 0;
+            margin: 0px 10px;
+        }
+
+        .menu-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Menu Items */
+        .menu-list li {
+            list-style: none;
+            padding: 2px 20px;
+            margin: 0 5px;
+            color: white;
+            font-size: 5px;
+            cursor: pointer;
+            border: 1px solid yellow;
+            background-color: red;
+            border-radius: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .menu-list li.active {
+            background-color: darkblue;
+            font-weight: bold;
+            font-size: 7px;
+            border: 2px solid white;
+            
+        }
+
+        .menu-list li:hover {
+            background-color: darkblue;
+        }
+
+        /* Navigation Buttons */
+        .menu-nav {
+            position: absolute;
+            top: 90%;
+            transform: translateY(-50%);
+            background-color: yellow;
+            color: black;
+            border-radius: 50%;
+            border: transparent;
+            padding: 10 10px;
+  
+            cursor: pointer;
+            z-index: 1002;
+            font-size: 17px;
+        }
+
+        .menu-nav.left {
+            left: 5px;
+        }
+
+        .menu-nav.right {
+            right: 5px;
+        }
+
+        /* Pagination Dots */
+        .pagination {
+            text-align: center;
+            margin-top: 142px;
+        }
+
+        .pagination span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 10px;
+            background-color: gray;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pagination span.active {
+            background-color: white;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 60px;
+            background-color: skyblue;
+            margin: 0px;
+            border-radius: 10px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Menu Button -->
+    
+
+
+    <div class="menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="menu-container" id="menu">
+        
+        <button class="menu-nav eye-icon" onclick="toggleMenuCategories()">
+    <img id="eyeImg" src="fa-solid fa-eye" alt="X">
+    
+    
+</button>
+        
+        
+        <button class="menu-nav left" onclick="scrollMenu(-1)">&#10094;</button>
+        
+        
+
+        <ul class="menu-list" id="menuList">
+          <li class="active" onclick="showSection(0)">Home</li>
+            <li onclick="showSection(1)">Live</li>
+            <li onclick="showSection(2)">PLAYINGXI</li>
+            <li onclick="showSection(3)">Teams</li>
+            <li onclick="showSection(4)">Settings</li>
+        </ul>
+
+        <button class="menu-nav right" onclick="scrollMenu(1)">&#10095;</button>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+  
+  
+  
+    <!-- Content Sections -->
+    <div class="content-section active" id="section0">
+        
+        <div class="top-bar"> 
+    <div class="left-box">UPDATE</div> 
+    <div class="right-box">
+        <marquee class="marquee" behavior="scroll" direction="left">
+            Welcome to Monk of Cricket.Please Subscribe my channel.
+            
+            <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+        </marquee> 
+    </div> 
+  </div>
+  
+ 
+
+<!-- ✅ Live Balls Box (Center Me Dikhega) -->
+<div class="live-balls-box">
+    <label class="upload-box" for="live-balls-upload">
+        <img id="live-balls-img" src="" alt="Upload Image">
+    </label>
+    <input type="file" id="live-balls-upload" accept="image/*">
+</div>
+
+
+  
+
+    
+   <!-- ✅ Runs Section (Centered Below Live Balls Box) -->
+<div class="runs-container">
+    
+    <!-- Left Teams Box -->
+    <div class="teams-box">
+        <label class="circle left-circle" for="left-upload">
+            <img id="left-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="left-upload" accept="image/*">
+        
+    </div>
+    
+    
+    
+    
+
+    <!-- Runs Box -->
+    <div class="runs-box">
+    <label class="upload-box" for="runs-box-upload">
+        <img id="runs-box-img" src="" alt="Upload Image">
+    </label>
+    <input type="file" id="runs-box-upload" accept="image/*">
+    
+</div>
+  
+      
+  
+
+
+    
+    
+      
+    
+
+    <!-- Right Teams Box -->
+    <div class="teams-box">
+        <label class="circle right-circle" for="right-upload">
+            <img id="right-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="right-upload" accept="image/*">
+      
+   
+   
+  
+     
+   </div>
+     
+   </div>
+   
+   
+   
+   <!-- Overlapping Boxes for Single Set -->
+<div class="overlap-container">
+    <!-- BRD 1 -->
+    <div class="custom-box brd" id="brd1">
+        <label for="brd1-upload">
+            <img id="brd1-img" src="" alt="BRD 1">
+        </label>
+        <input type="file" id="brd1-upload" accept="image/*">
+    </div>
+
+    <!-- BET 1 -->
+    <div class="custom-box bet" id="bet1">
+        <label for="bet1-upload">
+            <img id="bet1-img" src="" alt="BET 1">
+        </label>
+        <input type="file" id="bet1-upload" accept="image/*">
+    </div>
+
+    <!-- Indicator 3 -->
+    <div class="custom-box indicator" id="indicator3">
+        <label for="indicator3-upload">
+            <img id="indicator3-img" src="" alt="Indicator 3">
+        </label>
+        <input type="file" id="indicator3-upload" accept="image/*">
+    </div>
+</div>
+   
+   
+   <!-- Overlapping Boxes for Second Set (DRD 1, DET 1, Indi 1) -->
+<div class="overlap-container">
+    <!-- DRD 1 -->
+    <div class="custom-box drd" id="drd1">
+        <label for="drd1-upload">
+            <img id="drd1-img" src="" alt="DRD 1">
+        </label>
+        <input type="file" id="drd1-upload" accept="image/*">
+    </div>
+
+    <!-- DET 1 -->
+    <div class="custom-box det" id="det1">
+        <label for="det1-upload">
+            <img id="det1-img" src="" alt="DET 1">
+        </label>
+        <input type="file" id="det1-upload" accept="image/*">
+    </div>
+
+    <!-- Indi 1 -->
+    <div class="custom-box indi" id="indi1">
+        <label for="indi1-upload">
+            <img id="indi1-img" src="" alt="Indi 1">
+        </label>
+        <input type="file" id="indi1-upload" accept="image/*">
+    </div>
+</div>
+   
+   
+    <!-- Overlapping Boxes for Third Set (KT1, KL1, KM1) -->
+<div class="overlap-container">
+    <!-- KT1 -->
+    <div class="custom-box kt" id="kt1">
+        <label for="kt1-upload">
+            <img id="kt1-img" src="" alt="KT1">
+        </label>
+        <input type="file" id="kt1-upload" accept="image/*">
+    </div>
+
+    <!-- KL1 -->
+    <div class="custom-box kl" id="kl1">
+        <label for="kl1-upload">
+            <img id="kl1-img" src="" alt="KL1">
+        </label>
+        <input type="file" id="kl1-upload" accept="image/*">
+    </div>
+
+    <!-- KM1 -->
+    <div class="custom-box km" id="km1">
+        <label for="km1-upload">
+            <img id="km1-img" src="" alt="KM1">
+        </label>
+        <input type="file" id="km1-upload" accept="image/*">
+    </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    <!-- TIMELINE Box -->
+    <div class="timeline-box">
+    <label class="upload-box" for="timeline-upload">
+        <img id="timeline-img" src="" alt="Upload Image">
+    </label>
+    <input type="file" id="timeline-upload" accept="image/*">
+</div>
+
+
+
+
+    <!-- New Rectangular Box Below Timeline -->
+    <div class="new-rect-box"></div>
+     
+     
+     
+      </div> 
+    </div>
+  </div>
+    
+    
+    <div class="content-section" id="section1">
+        <h2>Live Section</h2>
+    </div>
+    
+    <div class="content-section" id="section2">
+    <!-- Top Bar with Team Selection -->
+    <div class="teams-selection">
+        <div class="team-box" id="team1" onclick="showPlayers('team1')">TEAM 1</div>
+        <div class="team-box" id="team2" onclick="showPlayers('team2')">TEAM 2</div>
+    </div>
+
+    <!-- Players List (Initially Hidden) -->
+    <div class="players-container" id="players-team1">
+        <h3>TEAM 1 Players</h3>
+        <ul class="players-list">
+            <!-- 11 Players for TEAM 1 -->
+            <script>
+                for (let i = 1; i <= 11; i++) {
+                    document.write(`
+                        <li class="player-box">
+                            <label class="player-upload" for="player${i}-upload">
+                                <img id="player${i}-img" src="" alt="Upload">
+                            </label>
+                            <input type="file" id="player${i}-upload" accept="image/*">
+                            <span class="player-text">Player ${i}</span>
+                        </li>
+                    `);
+                }
+            </script>
+        </ul>
+    </div>
+
+    <div class="players-container" id="players-team2">
+        <h3>TEAM 2 Players</h3>
+        <ul class="players-list">
+            <!-- 11 Players for TEAM 2 -->
+            <script>
+                for (let i = 12; i <= 22; i++) {
+                    document.write(`
+                        <li class="player-box">
+                            <span class="player-text">Player ${i - 11}</span>
+                            <label class="player-upload" for="player${i}-upload">
+                                <img id="player${i}-img" src="" alt="Upload">
+                            </label>
+                            <input type="file" id="player${i}-upload" accept="image/*">
+                        </li>
+                    `);
+                }
+            </script>
+        </ul>
+    </div>
+</div>
+    
+    
+    
+  </div>  
+    
+    </div>
+    
+    
+    
+    <div class="content-section" id="section3">
+        <h2>Teams Section</h2>
+    </div>
+    
+    
+    <div class="content-section" id="section4">
+        <h2>Settings Section</h2>
+    </div>
+
+
+
+
+
+
+    <!-- JavaScript Code -->
+    <script>
+        let currentIndex = 0;
+
+        document.getElementById("menuBtn").addEventListener("click", function () {
+            this.classList.toggle("active");
+            document.getElementById("menu").classList.toggle("show");
+        });
+
+        function showSection(index) {
+            currentIndex = index;
+
+            document.querySelectorAll('.content-section').forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+
+            document.querySelectorAll('.menu-list li').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            highlightActivePagination(index);
+        }
+
+        function scrollMenu(direction) {
+            let menu = document.getElementById("menuList");
+            let items = document.querySelectorAll(".menu-list li");
+            let itemWidth = items[0].offsetWidth + 10;
+            let maxIndex = items.length - 1;
+
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            showSection(currentIndex);
+            menu.scrollTo({ left: currentIndex * itemWidth, behavior: 'smooth' });
+        }
+
+        function updatePagination() {
+            let pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            document.querySelectorAll(".menu-list li").forEach((_, index) => {
+                let span = document.createElement("span");
+                span.onclick = () => showSection(index);
+                pagination.appendChild(span);
+            });
+
+            highlightActivePagination(0);
+        }
+
+        function highlightActivePagination(index) {
+            let dots = document.querySelectorAll(".pagination span");
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        updatePagination();
+        
+        
+        </script>
+  <script>
+        
+        
+        function handleImageUpload(uploadId, imgId, storageKey) {
+            const uploadInput = document.getElementById(uploadId);
+            const imgElement = document.getElementById(imgId);
+            const savedImage = localStorage.getItem(storageKey);
+            if (savedImage) {
+                imgElement.src = savedImage;
+            }
+
+            uploadInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imgElement.src = e.target.result;
+                        localStorage.setItem(storageKey, e.target.result); 
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        handleImageUpload('left-upload', 'left-image', 'leftCircleImage');
+        handleImageUpload('right-upload', 'right-image', 'rightCircleImage');
+       
+  
+    </script>
+<script>
+   
+    function handleImageUpload(uploadId, imgId, storageKey) {
+        const uploadInput = document.getElementById(uploadId);
+        const imgElement = document.getElementById(imgId);
+
+        const savedImage = localStorage.getItem(storageKey);
+        if (savedImage) {
+            imgElement.src = savedImage;
+        }
+
+        uploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imgElement.src = e.target.result;
+                    localStorage.setItem(storageKey, e.target.result); 
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    handleImageUpload('strike1-upload', 'strike1-image', 'strike1Image');
+    handleImageUpload('strike2-upload', 'strike2-image', 'strike2Image');
+    handleImageUpload('bowler-indicator-upload', 'bowler-indicator-image', 'bowlerIndicatorImage');
+     handleImageUpload('batsman1-upload', 'batsman1-image', 'batsman1Image');
+        handleImageUpload('batsman2-upload', 'batsman2-image', 'batsman2Image');
+        handleImageUpload('bowler-upload', 'bowler-image', 'bowlerImage');
+    
+    
+    
+   
+      
+    </script>
+    <script>
+    
+    
+    function showPlayers(team) {
+    document.getElementById("players-team1").style.display = "none";
+    document.getElementById("players-team2").style.display = "none";
+
+    document.getElementById("team1").classList.remove("active");
+    document.getElementById("team2").classList.remove("active");
+
+    document.getElementById(`players-${team}`).style.display = "flex";
+    document.getElementById(team).classList.add("active");
+}
+
+// Image Upload Logic
+function handlePlayerImage(uploadId, imgId, storageKey) {
+    const uploadInput = document.getElementById(uploadId);
+    const imgElement = document.getElementById(imgId);
+    const savedImage = localStorage.getItem(storageKey);
+
+    if (savedImage) {
+        imgElement.src = savedImage;
+    }
+
+    uploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imgElement.src = e.target.result;
+                localStorage.setItem(storageKey, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Assign image upload to 11 players for each team
+for (let i = 1; i <= 22; i++) {
+    handlePlayerImage(`player${i}-upload`, `player${i}-img`, `player${i}Image`);
+}
+    
+    
+    
+    
+  
+</script>
+<script>
+
+
+let isHidden = false; // Track toggle state
+
+function toggleMenuCategories() {
+    let menuItems = document.querySelectorAll(".menu-list li");
+    let activeItem = document.querySelector(".menu-list li.active");
+    let eyeImg = document.getElementById("eyeImg");
+
+    menuItems.forEach(item => {
+        if (item !== activeItem && !item.classList.contains("eye-icon")) {
+            item.style.visibility = isHidden ? "visible" : "hidden"; // Hide/Show
+            item.style.opacity = isHidden ? "1" : "0"; // Smooth effect
+            item.style.transition = "opacity 0.3s ease-in-out";
+            item.style.position = isHidden ? "relative" : "absolute"; // Space bhi remove hoga
+        }
+    });
+
+    // Toggle eye icon image
+    eyeImg.src = isHidden ? "eye-open.png" : "eye-closed.png";
+
+    isHidden = !isHidden; // Flip state
+}
+
+
+
+
+</script>
+<script>
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    function handleImageUpload(uploadId, imgId, storageKey) {
+        const uploadInput = document.getElementById(uploadId);
+        const imgElement = document.getElementById(imgId);
+
+        if (!uploadInput || !imgElement) {
+            console.error(`Element not found: ${uploadId} or ${imgId}`);
+            return;
+        }
+
+        // ✅ Refresh ke baad bhi image load ho
+        const savedImage = localStorage.getItem(storageKey);
+        if (savedImage) {
+            imgElement.src = savedImage;
+        } else {
+            imgElement.src = "default-image.png"; // Default image if no upload
+        }
+
+        // ✅ Image Upload Logic
+        uploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imgElement.src = e.target.result;
+                    localStorage.setItem(storageKey, e.target.result); // Save in localStorage
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // ✅ Apply function to all required elements
+    handleImageUpload('live-balls-upload', 'live-balls-img', 'liveBallsImage');
+    handleImageUpload('left-upload', 'left-image', 'leftTeamImage');
+    handleImageUpload('right-upload', 'right-image', 'rightTeamImage');
+    handleImageUpload('runs-box-upload', 'runs-box-img', 'runsBoxImage');
+    handleImageUpload('timeline-upload', 'timeline-img', 'timelineImage');
+});
+
+
+
+
+</script>
+<script>
+
+function handleImageUpload(uploadId, imgId, storageKey) {
+    const uploadInput = document.getElementById(uploadId);
+    const imgElement = document.getElementById(imgId);
+    const savedImage = localStorage.getItem(storageKey);
+    
+    if (savedImage) {
+        imgElement.src = savedImage;
+    }
+    
+    uploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imgElement.src = e.target.result;
+                localStorage.setItem(storageKey, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// ✅ Image Upload for BRD 1, BET 1, Indicator 3
+handleImageUpload('brd1-upload', 'brd1-img', 'brd1Image');
+handleImageUpload('bet1-upload', 'bet1-img', 'bet1Image');
+handleImageUpload('indicator3-upload', 'indicator3-img', 'indicator3Image');
+
+
+
+
+</script>
+<script>
+
+
+// ✅ Image Upload for DRD 1, DET 1, Indi 1 (New Set)
+function handleImageUpload(uploadId, imgId, storageKey) {
+    const uploadInput = document.getElementById(uploadId);
+    const imgElement = document.getElementById(imgId);
+    const savedImage = localStorage.getItem(storageKey);
+    
+    if (savedImage) {
+        imgElement.src = savedImage;
+    }
+    
+    uploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imgElement.src = e.target.result;
+                localStorage.setItem(storageKey, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+handleImageUpload('drd1-upload', 'drd1-img', 'drd1Image');
+handleImageUpload('det1-upload', 'det1-img', 'det1Image');
+handleImageUpload('indi1-upload', 'indi1-img', 'indi1Image');
+
+
+
+
+</script>
+<script>
+
+// ✅ Image Upload for KT1, KL1, KM1 (New Set)
+function handleImageUpload(uploadId, imgId, storageKey) {
+    const uploadInput = document.getElementById(uploadId);
+    const imgElement = document.getElementById(imgId);
+    const savedImage = localStorage.getItem(storageKey);
+    
+    if (savedImage) {
+        imgElement.src = savedImage;
+    }
+    
+    uploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imgElement.src = e.target.result;
+                localStorage.setItem(storageKey, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+handleImageUpload('kt1-upload', 'kt1-img', 'kt1Image');
+handleImageUpload('kl1-upload', 'kl1-img', 'kl1Image');
+handleImageUpload('km1-upload', 'km1-img', 'km1Image');
+
+
+
+
+
+</script>
+</body>
+</html>
