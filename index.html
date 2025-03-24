@@ -3,37 +3,835 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web B - Receive Message</title>
-    <script type="module">
-        // Firebase Import
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    <title>Swipe Up Menu with Horizontal Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: skyblue;
+        }
 
-        // Firebase Config (Same jo Web A me dala)
-        const firebaseConfig = {
-            apiKey: "AIzaSyApKqjKqAl6B5-6jnon6-6UQalsUbe0DpU",
-            authDomain: "cricketworls-71374.firebaseapp.com",
-            databaseURL: "https://cricketworls-71374-default-rtdb.firebaseio.com",
-            projectId: "cricketworls-71374",
-            storageBucket: "cricketworls-71374.firebasestorage.app",
-            messagingSenderId: "1096965034896",
-            appId: "1:1096965034896:web:68d018714764ec9eda5915"
-        };
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    background-color: transparent;
+    width: 100px;  /* ✅ Pure screen width */
+    box-sizing: border-box;
+    position: absolute;
+    height: 40px;
+    margin: 10p
+    
+}
 
-        // Firebase Initialize
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+.left-box {
+    width: 70px;  /* ✅ Fixed width for left box */
+    height: 25px;
+    font-size: 14px;
+    display: flex;
+    margin-top: -126px;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    border: 2px solid red;
+    color: white;
+    border-bottom-left-radius: 20px; 
+    border-top-left-radius: 20px;
+    
+    left: -60px;
+    position: absolute;
+    
+}
 
-        const messageRef = ref(db, "chat/message");
-        onValue(messageRef, (snapshot) => {
-            if (snapshot.exists()) {
-                document.getElementById("receivedMessage").innerText = snapshot.val().text;
-            }
-        });
-    </script>
+.right-box {
+    flex-grow: 1;  /* ✅ Bacha hua pura space le */
+    height: 25px;
+    background-color: black;
+    border: 2px solid mediumvioletred;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: -126px;
+    right: -200px;
+    width: 290px;
+    border-bottom-right-radius: 20px; 
+    border-top-right-radius: 20px;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.marquee {
+    font-size: 14px;
+    color: yellow;
+    width: 290px;  /* ✅ Marquee text full width lega */
+    overflow: hidden;
+    display: block;
+    position: absolute;
+   
+}
+  
+  
+  
+  /* ✅ Live Balls Box - Center Align */
+.live-balls-container {
+    display: flex;
+    justify-content: center; /* ✅ Center me laye */
+    margin-top: -26px; /* ✅ Thoda gap de left-right box ke niche */
+}
+
+.live-balls-box {
+    background-color: black;
+    color: yellow;
+    border: 2px solid yellow;
+    width: 140px;
+    border-radius: 20px;
+    height: 61px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 16px;
+    font-weight: bold;
+}
+        
+             /* Runs Section */
+        .runs-container {
+          position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin: 32px auto;
+        }
+
+.runs-container {
+    position: relative; /* Container ko relative rakhna zaroori hai */
+}
+
+.small-box {
+    width: 60px;
+    height: 40px;
+    background-color: #333; /* Light Black */
+    border: 0px solid white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; 
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1006;
+    position: absolute;
+    top: 0.5px;
+    margin-left: 147px;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-verflow: ellipsis;
+            
+}
+        /* Teams Box */
+        .teams-box {
+            background-color: #4869D2;
+            border: 3px solid white;
+            width: 280px;
+            height: 43px;
+            display: flex;
+            align-items: centre;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            text-shadow: 3px 3px 6px black;
+            color: white;
+            position: absolute;
+            z-index: 0;
+            padding-left: 27px;
+           
+        }
+        
+/* Left Wala Teams Box Ko Peeche Shift Karna */
+.teams-box:first-child {
+  position: absolute;
+ margin-right: -10px; 
+ z-index: 1002;
+ align-items: centre;
+ justify-content: left;
+
+ /* Left wala Teams Box ko Runs Box ke peeche shift karega */
+ 
+ 
+ 
+}
+
+.teams-box:last-child {
+    position: absolute;
+    left: 163px; /* Runs Box ke peeche shift karega */
+    z-index: 1005;
+    width: 70px;
+    bottom: -25px;
+}
+        /* Circle Style */
+        .circle {
+            width: 70px;
+            height: 70px;
+            background-color: transparent;
+            border:3px solid-black;
+            border-radius: 0;
+            position: absolute;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .left-circle {
+            left: -30px;
+            bottom: -14px;
+            z-index: 1006 ;
+        }
+
+        .right-circle {
+            right: -35px;
+            bottom: -14px;
+            z-index: 1008;
+        }
+
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hidden File Input */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Runs Box */
+        .runs-box {
+            background-color: #890E4F;
+            border: 3px solid green;
+            border-radius: 15px;
+            width: 95px;
+            height: 52px;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            z-index: 1007;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            text-verflow: ellipsis;
+            
+        }
+        
+      
+        
+        /* Player Boxes Section */
+        .three-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px auto;
+            width: 350px;
+            height: 100px;
+            border: 6px green;
+            left: 0px;
+           
+           
+           
+        }
+
+        .box {
+            background-color: greenyellow;
+           
+            width: 4000px;
+            border: 6px blue;
+            border-radius: 10px;
+            height: 90px;
+            padding: 10px;
+            display: centre;
+            left: -55px;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            position: relative;
+            margin-top: 60px;
+        }
+
+
+
+
+
+
+
+        /* Circles for Player Boxes - Transparent */
+        .player-circle {
+            width: 42px;
+            height: 67px;
+            background-color: transparent;  /* Transparent background */
+            border: 2px solid transparent;  /* Transparent border */
+            border-radius: 10%;
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .player-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Small Rectangular Box with Gradient */
+        .small-rect {
+            background: midnightblue;
+            width: 105px;
+            height:50px;               
+            border-radius: 7px;
+            position: absolute;
+            bottom: 0px;
+            margin: 10px auto;
+            left: 0px;
+            display: flex;
+            flex-direction: column;     
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;               
+        }
+
+        .small-rect .text-container {
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+
+        /* Red Rectangular Box Behind Text */
+        .text-background {
+            background-color: red;       /* Background Color */
+            border-top-right-radius: 7px;
+            border-top-left-radius: 7px;         /* Rounded Corners */
+            width: 105px;                /* Box Width */
+            height: 26px;                /* Box Height */
+            position: absolute; 
+            /* Positioned Behind the Text */
+            z-index: 0;                  /* Behind the Text */
+            left: -17px;
+            margin: 100px auto;
+            
+            
+            
+        }
+
+        .small-rect p {
+            position: relative;          /* Keep Text Above the Red Box */
+            z-index: 1;                  /* Ensure Text is on Top */
+            margin: 30px 0;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-verflow: ellipsis;
+            left: 17px;
+            
+        }
+
+      
+      
+      
+      /* 📌 Bowler ke Photo ke Aage Ball Icon */
+.bowler-icon {
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+}     
+     /* Strike Indicator Box with Image */
+    .strike-indicator {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        position: absolute;
+        right: 10px;
+        background: transparent;
+        top: 10px;
+        right: -6px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .strike-indicator img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Bowler Round Indicator with Image */
+    .bowler-indicator {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        position: absolute;
+        top: 10px;
+        right: -6px;
+        overflow: hidden;
+        cursor: pointer;
+        background: transparent;
+    }
+
+    .bowler-indicator img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Hide File Inputs */
+    input[type="file"] {
+        display: none;
+    }
+  
+      
+      
+      
+      
+      
+      /* TIMELINE Box */
+        .timeline-box {
+            background-color: red;
+            border-radius: 50px;
+            border: 2px solid white;
+            width: 350px;
+            height: 40px;
+            left: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: white;
+            font-weight: bold;
+            padding-left: 2px
+            font-size: 13px;
+            margin: 0px auto;
+            z-index: 1;
+            position: absolute;
+        }
+
+/* New Rectangular Box Below Timeline */
+        .new-rect-box {
+            width: 350px;
+            height: 150px;
+            position: absolute;
+            z-index: 0;
+            background-color: blue;      /* Blue Background */
+            border: 3px solid white;     /* White Border */
+            border-radius: 6px;
+            left: 2px;
+            margin: 160px auto;           /* 15px Gap Below Timeline */
+          
+        }
+        
+      .teams-selection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px auto;
+}
+
+.team-box {
+    width: 100px;
+    height: 45px;
+    background-color: blue;
+    color: yellow;
+    border: 3px solid green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.team-box.active {
+    background-color: black;
+    color: white;
+}
+
+.players-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.players-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.player-box {
+    width: 60px;
+    height: 60px;
+    background-color: blue;
+    border: 3px solid red;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.player-text {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+}
+
+.players-container:first-child .player-text {
+    right: -50px;
+}
+
+.players-container:last-child .player-text {
+    left: -50px;
+}
+
+.player-upload {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+.player-upload img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+input[type="file"] {
+    display: none;
+}
+ 
+        
+        
+        
+        
+        
+        
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            bottom: 120px;
+            right: 70px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        .menu-btn span {
+            width: 35px;
+            height: 5px;
+            margin: 5px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Cross Animation */
+        .menu-btn.active span:nth-child(1) {
+            transform: translateY(16px) rotate(45deg);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Menu Container */
+        .menu-container {
+            position: fixed;
+            bottom: -200px;
+            height: 180px;
+            left: 0;
+            width: 350px;
+            left: 4px;
+            background-color: #2E3748;
+            padding: 10px 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            transition: transform 0.4s ease-in-out;
+            text-align: center;
+        }
+
+        .menu-container.show {
+            transform: translateY(-200px);
+        }
+
+        /* Horizontal Scroll Menu */
+        .menu-list {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 0;
+            margin: 0px 10px;
+        }
+
+        .menu-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Menu Items */
+        .menu-list li {
+            list-style: none;
+            padding: 7px 20px;
+            margin: 0 5px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            border: 3px solid yellow;
+            background-color: red;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .menu-list li.active {
+            background-color: darkblue;
+            font-weight: bold;
+        }
+
+        .menu-list li:hover {
+            background-color: black;
+        }
+
+        /* Navigation Buttons */
+        .menu-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .menu-nav.left {
+            left: 5px;
+        }
+
+        .menu-nav.right {
+            right: 5px;
+        }
+
+        /* Pagination Dots */
+        .pagination {
+            text-align: center;
+            margin-top: 127px;
+        }
+
+        .pagination span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 4px;
+            background-color: gray;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pagination span.active {
+            background-color: white;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 60px;
+            background-color: skyblue;
+            margin: 0px;
+            border-radius: 5px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+
+
+
+
+
+    </style>
 </head>
 <body>
-    <h2>Web B - Receive Message</h2>
-    <p>Received Message: <span id="receivedMessage">Waiting...</span></p>
-</body>
-</html>
+
+    <!-- Menu Button -->
+    <div class="menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="menu-container" id="menu">
+        <button class="menu-nav left" onclick="scrollMenu(-1)">&#10094;</button>
+
+        <ul class="menu-list" id="menuList">
+            <li class="active" onclick="showSection(0)">Home</li>
+            <li onclick="showSection(1)">Live</li>
+            <li onclick="showSection(2)">Matches</li>
+            <li onclick="showSection(3)">Teams</li>
+            <li onclick="showSection(4)">Settings</li>
+        </ul>
+
+        <button class="menu-nav right" onclick="scrollMenu(1)">&#10095;</button>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+  
+  
+  
+    <!-- Content Sections -->
+    <div class="content-section active" id="section0">
+        
+        <div class="top-bar"> 
+    <div class="left-box">UPDATE</div> 
+    <div class="right-box">
+        <marquee class="marquee" behavior="scroll" direction="left">
+            INDIA HAVE WON THE TOSS AND OPT TO BAT. IDFC FIRST BANK 3RD ODI LIVE FROM AHMEDABAD.
+        </marquee> 
+    </div> 
+  </div>
+  
+ 
+
+<!-- ✅ Live Balls Box (Center Me Dikhega) -->
+<div class="live-balls-container">
+    <div class="live-balls-box">LIVE BALLS</div>
+
+
+    </div>
+
+    
+   <!-- ✅ Runs Section (Centered Below Live Balls Box) -->
+<div class="runs-container">
+    
+    <!-- Left Teams Box -->
+    <div class="teams-box">
+        <label class="circle left-circle" for="left-upload">
+            <img id="left-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="left-upload" accept="image/*">
+        XYZ
+    </div>
+
+    <!-- Runs Box -->
+    <div class="runs-box">120 - 7</div>
+    <div class="small-box">19.1</div>
+
+    <!-- Right Teams Box -->
+    <div class="teams-box">
+        <label class="circle right-circle" for="right-upload">
+            <img id="right-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="right-upload" accept="image/*">
+   
+   
+  
+     
+   </div>
+     
+   </div>
+   
+   
+   
+    <!-- Player Boxes with Indicators -->
+<div class="three-boxes">
+    <div class="box">
+        <label class="player-circle" for="batsman1-upload">
+            <img id="batsman1-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="batsman1-upload" accept="image/*">
+        
+        
+           
+        
+       
+        
+        <!-- Strike Indicator for Batsman 1 (Image Upload) -->
+        <label class="strike-indicator" for="strike1-upload">
+            <img id="strike1-image" src="" alt="Upload Strike Indicator">
+        </label>
+        <input type="file" id="strike1-upload" accept="image/*">
+
+        <div class="small-rect">
+            <div class="text-container">
+                <div class="text-background"></div> 
+                <p>BATSMAN 1</p>
+            </div>
+            <p>00 (00)</p>  
+        </div>
+    </div>
+
+    <div class="box">
+        <label class="player-circle" for="batsman2-upload">
+            <img id="batsman2-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="batsman2-upload" accept="image/*">
+        
+        <!-- Strike Indicator for Batsman 2 (Image Upload) -->
+        <label class="strike-indicator" for="strike2-upload">
+            <img id="strike2-image" src="" alt="Upload Strike Indicator">
+        </label>
+        <input type="file" id="strike2-upload" accept="image/*">
+
+        <div class="small-rect">
+            <div class="text-container">
+                <div class="text-background"></div> 
+                <p>BATSMEN 2</p>
+            </div>
+            <p>00 (00)</p>  
+        </div>
+    </div>
+
+    <div class="box">
+        <label class="player-circle" for="bowler-upload">
+            <img id="bowler-image" src="" alt="Upload Image">
+        </label>
+        <input type="file" id="bowler-upload" accept="image/*">
+        
+        <!-- Bowler Round Indicator (Image Upload) -->
+        <label class="bowler-indicator" for="bowler-indicator-upload">
+            <img id="bowler-indicator-image" src="" alt="Upload Bowler Indicator">
+        </label>
+        <input type="file" id=
