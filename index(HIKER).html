@@ -1,0 +1,3238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swipe Up Menu with Horizontal Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overscroll-behavior: none; 
+            background-color: skyblue;
+            overflow: hidden;
+            height: 100%;
+         
+         
+        }   
+            html, body {
+    overscroll-behavior: contain; /* ✅ Scrolling ka bounce effect hatane ke liye */
+    overflow: hidden; /* ✅ Poora page scroll hone se rokne ke liye */
+    height: 100%;
+}
+            
+        
+.eye-icon {
+  border: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  position: fixed;
+  top: 160px;
+  right: 0px;
+  background: transparent;
+
+
+
+}  
+.eye-icon img {
+  background: ;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid white;
+  
+  
+}
+        
+        
+/* Menu Button */
+.menu-btn {
+  position: fixed;
+  bottom: 149px;
+  left: 6px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 9001;
+  padding:  10px;
+  border: 2px solid white;
+            
+  }
+
+  .menu-btn span {
+    width: 33px;
+    height: 4px;
+    margin-top: 0px;
+    background-color: white;
+    border-radius: 2px;
+    border: 0px solid white;
+    transition: all 0.3s ease-in-out;
+  
+    
+  }
+
+
+
+/* Cross Animation */
+.menu-btn.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+          
+}
+
+.menu-btn.active span:nth-child(2) {
+  opacity: 0;
+  
+        }
+
+.menu-btn.active span:nth-child(3) {
+            transform: translateY(-13px) rotate(-45deg);
+        }
+
+/* Menu Container */
+.menu-container {
+            position: fixed;
+            bottom: -200px;
+            height: 180px;
+            left: 0;
+            width: 350px;
+            left: 4px;
+            border: none;
+            background-color: #2E3748;
+            padding: 10px 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            transition: transform 0.4s ease-in-out;
+            text-align: center;
+            overflow: hidden;
+            z-index: 8888;
+        }
+
+        .menu-container.show {
+            transform: translateY(-200px);
+        }
+
+        /* Horizontal Scroll Menu */
+        .menu-list {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 0;
+            margin-left: 50px;
+            margin-top: -6px;
+        }
+
+.menu-list {
+    display: flex;
+    justify-content: space-around; /* ✅ Categories evenly space ho jayengi */
+    overflow-x: hidden; /* ✅ Scrolling band ho jayegi */
+    white-space: nowrap;
+}
+
+      
+
+        /* Menu Items */
+        .menu-list li {
+            list-style: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            color: white;
+            font-size: 7px;
+            font-weight: bold;
+            text-align: centre;
+            cursor: pointer;
+            border: 2px solid yellow;
+            background-color: red;
+            border-radius: 18px;
+            transition: background 0.3s ease;
+            z-index: 2000;
+        }
+
+        .menu-list li.active {
+            background-color: darkblue;
+            font-weight: bold;
+            font-size: 7px;
+            border: 2px solid white;
+            transform: scale(1.02);
+            
+        }
+
+        .menu-list li:hover {
+            background-color: darkblue;
+        }
+
+
+
+
+
+        
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 60px;
+            background-color: skyblue;
+            margin: 0px;
+            border-radius: 10px;
+        }
+
+        .content-section.active {
+            display: block;
+  
+  
+  
+        }
+
+
+
+
+/* ✅ MAIN, NEXT, RICT Buttons Styling */
+.fixed-menu-buttons {
+    position: absolute;
+    left: 4px;
+    top: 58px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ✅ Button Design */
+.fixed-btn {
+    height: 20px;
+    width: 47px;
+    background-color: blue;
+    color: white;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* ✅ Button Hover Effect */
+.fixed-btn:hover {
+    background-color: darkblue;
+    transform: scale(1.30);
+    color: yellow;
+}
+
+/* ✅ Active Button (Jab Click Karein) */
+.fixed-btn.active {
+    background-color: orangered;
+}
+
+
+
+
+
+
+
+/* ✅ MAIN Dialogue Box - Horizontal Categories */
+.dialog-box {
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 58%;
+    height: 150px;
+    transform: translateX(-50%);
+    width: 269px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid blue;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+/* ✅ Horizontal Category Container */
+.dialog-categories {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 9999;
+}
+
+/* ✅ Individual Category Button */
+.dialog-category {
+    flex: 1;
+    text-align: center;
+    padding: 3px;
+    background-color: black;
+    color: white;
+    margin-top: -8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    pointer-events: auto;
+}
+
+/* ✅ Active Category */
+.dialog-category.active {
+    background-color: orangered;
+}
+
+/* ✅ Scrollable Options */
+.options-container {
+    height: 120px;
+    width: 276px;
+    overflow-y: auto;
+    overflow-x: hidden; /* ✅ Horizontal scrolling disable */
+    border: 2px solid black;
+    padding: 0px;
+    background: blue;
+    
+    margin-top: 20px;
+    right: 4px;
+    position: fixed;
+    
+}
+
+/* ✅ Vertical Scrollbar Styling */
+.options-container::-webkit-scrollbar {
+    width: 5px; /* ✅ Thin scrollbar */
+}
+
+.options-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.options-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.options-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+    
+    
+    
+
+
+/* ✅ Option Box */
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    width: 183px;
+    font-weight: bold;
+    color: black;
+    font-size: 17px;
+    background-color: greenyellow;
+    margin: 3px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Tick Box */
+.option input[type="radio"] {
+    accent-color: green;
+    transform: scale(1.2);
+}
+
+
+
+
+/* ✅ Undo & Update Buttons */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px; /* ✅ 5px gap between buttons */
+    margin-top: 10px;
+    right: 10px;
+    z-index: 2008;
+    position: fixed;
+  
+    
+}
+    
+
+
+.button-container button {
+    padding: 8px 12px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    border: 2px solid greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2007;
+    
+}
+
+
+
+
+
+
+
+.button-container button:hover {
+    background-color: green;
+    
+    
+    
+    
+}
+
+
+
+/* ✅ RICT Dialogue Box */
+.rict-dialog {
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 58%;
+    height: 150px;
+    transform: translateX(-50%);
+    width: 269px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid darkblue;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+/* ✅ Horizontal Category Container */
+.rict-dialog .dialog-categories {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 9999;
+}
+
+/* ✅ Individual Category Button */
+.rict-dialog .dialog-category {
+    flex: 1;
+    text-align: center;
+    padding: 3px;
+    background-color: black;
+    color: white;
+    margin-top: -8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    pointer-events: auto;
+}
+
+/* ✅ Active Category */
+.rict-dialog .dialog-category.active {
+    background-color: orangered;
+}
+
+/* ✅ Scrollable Options */
+.rict-dialog .options-container {
+    height: 120px;
+    width: 276px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid black;
+    padding: 0px;
+    background: lightblue;
+    margin-top: 20px;
+    margin-right: 0px;
+    position: relative;
+}
+
+/* ✅ Vertical Scrollbar Styling */
+.rict-dialog .options-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.rict-dialog .options-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.rict-dialog .options-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.rict-dialog .options-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ✅ Option Box */
+.rict-dialog .option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    width: 183px;
+    font-weight: bold;
+    color: black;
+    font-size: 17px;
+    background-color: lightblue;
+    margin: 3px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Tick Box */
+.rict-dialog .option input[type="radio"] {
+    accent-color: blue;
+    transform: scale(1.2);
+}
+
+/* ✅ Undo & Update Buttons */
+.rict-dialog .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    margin-top: -114px;
+    margin-right: 10px;
+    z-index: 2008;
+}
+
+.rict-dialog .button-container button {
+    padding: 8px 12px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    border: 2px solid blue;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2007;
+}
+
+.rict-dialog .button-container button:hover {
+    background-color: darkblue;
+}
+
+
+/* ✅ STET Dialogue Box */
+.stet-dialog {
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 58%;
+    height: 150px;
+    transform: translateX(-50%);
+    width: 269px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid darkorange;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+/* ✅ Horizontal Category Container */
+.stet-dialog .dialog-categories {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 9999;
+}
+
+/* ✅ Individual Category Button */
+.stet-dialog .dialog-category {
+    flex: 1;
+    text-align: center;
+    padding: 3px;
+    background-color: black;
+    color: white;
+    margin-top: -8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    pointer-events: auto;
+}
+
+/* ✅ Active Category */
+.stet-dialog .dialog-category.active {
+    background-color: orangered;
+}
+
+/* ✅ Scrollable Options */
+.stet-dialog .options-container {
+    height: 120px;
+    width: 276px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid black;
+    padding: 0px;
+    background: orange;
+    margin-top: 20px;
+    margin-right: 0px;
+    position: relative;
+}
+
+/* ✅ Vertical Scrollbar Styling */
+.stet-dialog .options-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.stet-dialog .options-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.stet-dialog .options-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.stet-dialog .options-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ✅ Option Box */
+.stet-dialog .option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    width: 183px;
+    font-weight: bold;
+    color: black;
+    font-size: 17px;
+    background-color: orange;
+    margin: 3px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Tick Box */
+.stet-dialog .option input[type="radio"] {
+    accent-color: darkorange;
+    transform: scale(1.2);
+}
+
+/* ✅ Undo & Update Buttons */
+.stet-dialog .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    margin-top: -114px;
+    margin-right: 10px;
+    z-index: 2008;
+}
+
+.stet-dialog .button-container button {
+    padding: 8px 12px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    border: 2px solid darkorange;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2007;
+}
+
+.stet-dialog .button-container button:hover {
+    background-color: darkred;
+}
+
+/* ✅ NEXT Dialogue Box */
+.next-dialog {
+    display: none;
+    position: absolute;
+    top: 25px;
+    left: 58%;
+    height: 150px;
+    transform: translateX(-50%);
+    width: 269px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid darkgreen;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+/* ✅ Horizontal Category Container */
+.next-dialog .dialog-categories {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    z-index: 9999;
+}
+
+/* ✅ Individual Category Button */
+.next-dialog .dialog-category {
+    flex: 1;
+    text-align: center;
+    padding: 3px;
+    background-color: black;
+    color: white;
+    margin-top: -8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    pointer-events: auto;
+}
+
+/* ✅ Active Category */
+.next-dialog .dialog-category.active {
+    background-color: orangered;
+}
+
+/* ✅ Scrollable Options */
+.next-dialog .options-container {
+    height: 120px;
+    width: 276px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid black;
+    padding: 0px;
+    background: lightgreen;
+    margin-top: 20px;
+    margin-right: 0px;
+    position: relative;
+}
+
+/* ✅ Vertical Scrollbar Styling */
+.next-dialog .options-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.next-dialog .options-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.next-dialog .options-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.next-dialog .options-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ✅ Option Box */
+.next-dialog .option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    width: 183px;
+    font-weight: bold;
+    color: black;
+    font-size: 17px;
+    background-color: lightgreen;
+    margin: 3px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Tick Box */
+.next-dialog .option input[type="radio"] {
+    accent-color: darkgreen;
+    transform: scale(1.2);
+}
+
+/* ✅ Undo & Update Buttons */
+.next-dialog .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    margin-top: -114px;
+    margin-right: 10px;
+    z-index: 2008;
+}
+
+.next-dialog .button-container button {
+    padding: 8px 12px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    border: 2px solid darkgreen;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 2007;
+}
+
+.next-dialog .button-container button:hover {
+    background-color: darkblue;
+}
+
+
+
+
+
+
+/* ✅ Dropdown Menu */
+.settings-container {
+    margin-bottom: 10px;
+    
+}
+
+select {
+    width: 150px;
+    position: fixed;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid black;
+    top: 10px;
+    right: 30px;
+    z-index: 10000;
+    font-weight: bold;
+}
+
+/* ✅ Hide all sections by default */
+.category-section {
+    display: none;
+    height: 200px;
+    width: 320px;
+    right: 5px;
+    
+    z-index: 300;
+    padding: 10px;
+    border: 2px solid black;
+    background: white;
+    position: fixed;
+    top: 200px;
+    z-index: 00;
+}
+
+/* ✅ Marqo Text Box */
+.update-box {
+    width: 80px;
+    height: 18px;
+    top: 0px;
+    left: 0px;
+    padding-left: 6px;
+    padding-top: 2px;
+    border: 2px solid red;
+    background: blue;
+    color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    position: fixed;
+    display: flex;
+    
+}
+
+/* ✅ Scrolling Text (Box Static, Only Text Moves) */
+.scroll-box {
+    width: 290px;
+    height: 20px;
+    top: 0px;
+    right: 0px;
+    border: 2px solid deeppink;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: black;
+    color: yellow;
+    font-weight: bold;
+    overflow: hidden;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollText 7s linear infinite;
+}
+
+@keyframes scrollText {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+
+
+
+/* ✅ Editable Rows */
+.marqo-rows {
+    margin-top: -100px;
+}
+
+.marqo-rows div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.marqo-rows input[type="text"] {
+    width: 190px;
+    padding-left: 20px;
+    top: -30px;
+    left: -30px;
+    color: yellow;
+    background: black;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid white;
+    
+    
+}
+
+.marqo-rows input[type="checkbox"] {
+    transform: scale(1.8);
+    position: fixed;
+    right: 80px;
+}
+
+.marqo-rows button {
+    padding: 3px 8px;
+    background: green;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    right: -50px;
+    
+    position: relative;
+    height: 30px;
+    border: 2px solid black;
+    z-index: 9990;
+}
+
+
+.livebox { 
+  
+  
+    position: fixed;
+    height: 60px;
+    width: 140px;
+    border: 4px solid yellow;
+    background: black;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    left: 50%;
+    transform: translateX(-50%); 
+    top: 26px;
+    z-index: 200;
+    
+        /* ✅ Image ko fully cover karne ke liye */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    
+    
+}
+
+ .temox-left {
+    width: 170px;
+    height: 50px;
+    border: transparent;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+    background: transparent;
+    position: fixed;
+    top: 76px;
+    left: 0px;
+    z-index: 200;
+          
+    /* ✅ Image ko fully cover karne ke liye */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+          
+          
+  }
+      
+  .temox-right{
+    width: 170px;
+    height: 50px;
+    border: transparent;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;  
+    background: transparent;
+    position: fixed;
+    right: 0px;
+    top: 76px;
+    /* ✅ Image ko fully cover karne ke liye */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 200;
+  }
+        
+.robox-top {
+    width: 91px;
+    height: 64px;
+    left: 133px;
+    background: transparent;
+    border-radius: 10px;
+    display: flex;
+    border: 2px solid black
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px; /* ✅ LINEBOX ke beech gap */
+    position: fixed;
+    z-index: 300;
+    top: 98px;
+        
+    /* ✅ Image ko fully cover karne ke liye */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+        
+        
+          
+  }
+     
+     
+      /* TIMELINE BOX*/  
+  .robox-bottom { 
+    background: transparent;
+    color: white;
+    width: 354px;
+    height: 50px;
+    border: transparent;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;  
+    position: fixed;
+    top: 152px;
+    left: 0px;
+    z-index: 300;     
+          
+      /* ✅ Image ko fully cover karne ke liye */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+          
+ }
+        
+ .rectox { 
+          
+  width: 350px;
+  height: 120px;
+  border: transparent;
+  top: 340px;
+  right: 2px;
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;  
+  background: transparent;
+  color: white; 
+  z-index: 1;
+  position: fixed;
+
+    
+          
+ }
+
+  /* ✅ URL Box */
+ .url-box {
+            width: 120px;
+            height: 20px;
+            border: 3px solid black;
+            margin-top: 0px;
+            padding: 5px;
+            z-index: 9990;
+            border-radius: 10px;
+            position: relative  ;
+            left: 30px;
+            margin-right: 50px;
+            
+}
+
+
+
+/* ✅ CREATE MATCH Fixed Button */
+#createMatchFixedBtn {
+    position: absolute;
+    /* ✅ Top par fix */
+    margin-left: 194px; /* ✅ Agar left me chahiye to 'left: 10px;' kar do */
+    background: blue;
+    color: white;
+    border: 3px solid white;
+    padding: 8px 0px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 10px;
+    z-index: 9999; /* ✅ Sabse upar rahega */
+    margin-top: -10px;
+}
+
+/* ✅ Hover Effect */
+#createMatchFixedBtn:hover {
+    background: darkred;
+    transform: scale(1.1);
+}
+
+
+
+
+
+/* ✅ Scrollable Dialogue Box */
+.dialog-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 450px; /* Fixed Height */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid blue;
+    z-index: 9900;
+    text-align: center;
+    overflow-y: auto; /* ✅ Scrollable */
+ 
+ 
+}   
+   /* ✅ Create Match Title (Thoda upar shift) */
+.dialog-box h2 {
+    margin-top: -10px; /* ✅ Text ko upar shift kar diya */
+    font-size: 18px;
+} 
+    
+    
+
+
+
+
+/* ✅ Close (X) Button */
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: 2px;
+    color: red;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* ✅ Save Button */
+.save-btn {
+    background: green;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+
+/* ✅ Dropdown Container */
+.dropdown-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.dropdown-container label {
+    font-weight: bold;
+    right: 80px;
+    margin-top: 14px;
+    position: absolute;
+    font-size: 18px;
+}
+
+.dropdown-container select {
+    width: 60px; /* ✅ Fixed Width */
+    height: 40px;
+    border: 2px solid black;
+    top: 50px;
+    right: 10px;
+}
+
+/* ✅ Team Box */
+.team-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.team-box input {
+    width: 120px;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.team-box button {
+    background: green;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Cancel Button */
+.cancel-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: red;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ✅ Match Type Dropdown Box */
+.match-type-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90px;
+    padding: 5px;
+    background: transparent;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    border: transparent;
+}
+
+/* ✅ Match Type Label */
+.match-type-container label {
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 10px;
+    margin-top: -9px;
+    text-align: left;
+    
+    
+}
+
+/* ✅ Match Type Dropdown */
+.match-type-container select {
+    width: 60px;
+    height: 40px;
+    border: 2px solid black;
+    font-size: 14px;
+    border-radius: 0px;
+    background: white;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-right: 182px;
+    position: absolute;
+}
+
+
+/* ✅ Player Dialogue Box */
+.player-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid black;
+    text-align: center;
+    z-index: 12000;
+}
+
+/* ✅ Player Photo Box */
+.player-photo {
+    width: 80px;
+    height: 80px;
+    background: lightgray;
+    border: 2px solid black;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+/* ✅ Input Fields */
+.player-dialog input {
+    width: 100%;
+    margin: 5px 0;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+/* ✅ Save & Cancel Buttons */
+.player-dialog button {
+    background: green;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: red !important;
+}
+
+/* ✅ View Players Button */
+.view-players-btn {
+    background: blueviolet;
+    color: white;
+    border: 2px sold black;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  
+  
+}
+
+/* ✅ Fixed Player List Box */
+.players-list-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px; /* ✅ Fixed Height */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid black;
+    text-align: left;
+    z-index: 10000;
+}
+
+/* ✅ Scrollable Player List */
+#playersListContainer {
+    max-height: 250px; /* ✅ Scrolling Enabled */
+    overflow-y: auto;
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: -30px;
+}
+
+/* ✅ Hide Default Scrollbar (Optional) */
+#playersListContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+#playersListContainer::-webkit-scrollbar-thumb {
+    background: darkgray;
+    border-radius: 5px;
+}
+
+
+
+
+
+/* ✅ CREATE Button */
+.create-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: darkblue;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+/* ✅ Common Dropdown Styling */
+.dropdown {
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ✅ Batsman 1 Dropdown */
+.batsman-dropdown {
+    background-color: lightblue;
+    border: 2px solid blue;
+    color: darkblue;
+    top: 30px;
+    left: -4px;
+    width: 95px;
+    position: absolute;
+}
+
+.batsman-dropdown:hover {
+    background-color: blue;
+    color: white;
+}
+
+.batsman-dropdown:focus {
+    border-color: darkblue;
+    outline: none;
+}
+
+/* ✅ Batsman 2 Dropdown */
+.batsman2-dropdown {
+    background-color: lightgreen;
+    border: 2px solid green;
+    color: darkgreen;
+    top: 30px;
+    left: -4px;
+    width: 95px;
+    position: absolute;
+}
+
+.batsman2-dropdown:hover {
+    background-color: green;
+    color: white;
+}
+
+.batsman2-dropdown:focus {
+    border-color: darkgreen;
+    outline: none;
+}
+
+/* ✅ Bowler Dropdown */
+.bowler-dropdown {
+    background-color: lightcoral;
+    border: 2px solid red;
+    color: darkred;
+    top: 30px;
+    right: -30px;
+    width: 95px;
+    position: absolute;
+}
+
+.bowler-dropdown:hover {
+    background-color: red;
+    color: white;
+}
+
+.bowler-dropdown:focus {
+    border-color: darkred;
+    outline: none;
+}
+
+
+  
+  /* ✅ Container ko Column Layout me Set Karna */
+.player-selection-batsmen1 {
+    display: flex;
+    font-weight: bold;
+    margin-top: 160px;
+    position: absolute;
+    
+
+
+
+}
+
+
+.player-selection-batsmen2 {
+    display: flex;
+    font-weight: bold;
+    margin-top: 160px;
+    position: absolute;
+    right: 120px;
+    
+
+
+
+}
+
+.player-selection-bowler {
+    display: flex;
+    font-weight: bold;
+    margin-top: 160px;
+    position: absolute;
+    right: 30px;
+    
+
+
+
+}
+
+
+
+
+
+/* ✅ Score Board Container */
+.team-score {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    color: yellow;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 4000;
+    position: ;
+    margin-top: 90px;
+}
+
+/* ✅ Batting Team (Left Side) */
+.batting-team {
+    flex: 1;
+    text-align: right;   /* ✅ Left Align */
+    padding-right: 10px;
+    z-index: 5000;
+    position: absolute;
+    font-size: 28px;
+    left: 70px;
+    top: 117px;
+}
+
+/* ✅ Score (Center) */
+.match-score {
+    flex: 1;
+    text-align: center; /* ✅ Center Align */
+    
+    position: absolute;
+    right: 160px;
+    z-index: 5000;
+    font-size: 25px;
+    top: 108px;
+}
+
+/* ✅ Bowling Team (Right Side) */
+.bowling-team {
+    flex: 1;
+    text-align: left;  /* ✅ Right Align */
+    padding-left: 10px;
+    z-index: 5000;
+    position: absolute;
+    right: 65px;
+    font-size: 28px;
+    top: 117px;
+    
+}
+
+
+
+/* ✅ Overs Box */
+.overs-box {
+    text-align: center;
+    font-size: 18px;
+    margin-top: -32px;
+    color: white;
+    margin-left: 110px;
+    position: absolute;
+    z-index: 4000;
+    background: 
+    font-weight: bold;
+}
+
+/* ✅ Batsman & Bowler Display */
+.players-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: -32px;
+    z-index: 10;
+    width:
+    gap: 30px;
+    margin-left: 0px;
+}
+
+
+.batsman img {
+    width: 120px;
+    height: 120px;
+    border-radius: 0px;
+    border: 2px solid white;
+    background: ;
+}
+
+.bowler img {
+  
+    width: 120px;
+    height: 120px;
+    border-radius: 0px;
+    border: 2px solid white;
+    background: blue
+    z-index: 4000;
+  
+  
+
+
+
+ 
+  
+  
+  
+}
+ 
+
+
+
+/* ✅ Batsman Runs & Balls ko Niche Shift Karo */
+.batsman p:nth-child(3) {  
+    margin-top: -43px;  /* ✅ Niche Shift */
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: white;
+    z-index: 5000;
+    
+  
+}
+  
+/* ✅ Player Name & Score ko Upar Shift Karo */
+.batsman p {
+  
+
+  margin-top: -27px;
+  /* ✅ Thoda Upar Shift */
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  Color: yellow;
+  margin-left: 25px;  
+  position: fixed;
+    
+
+    
+}
+
+/* ✅ Bowler Wickets & Runs ko Niche Shift Karo */
+.bowler p:nth-child(3) {  
+    margin-top: -10px; /* ✅ Niche shift*/
+    font-size: 20px;
+    font-weight: bold;
+    color: yellow;
+    margin-left: 20px;
+    z-index: 5000;
+    
+    
+    
+}
+
+ 
+    .bowler p {
+    margin-top: -43px;  /* ✅ Thoda Upar Shift */
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    Color : white;
+    margin-left: 12px;
+    
+    
+}
+
+
+/* ✅ GO LIVE Button */
+.go-live-btn {
+    position: fixed;
+    top: 0px; /* ✅ Position Adjust */
+    right: 143px;
+    transform: translateX(-50%);
+    background: royalblue;
+    color: white;
+    height: 35px;
+    width: 57px;
+    font-weight: bold;
+    border: 3px solid yellow;
+    font-size: 12px;
+    padding: 2px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 2002;
+    
+    /* ✅ Blink Animation Apply Karo */
+    animation: blink-text 1s infinite;
+
+
+
+}
+
+
+/* ✅ GO LIVE Button Text Blink Animation */
+@keyframes blink-text {
+    0% { color: white; }
+    50% { color: yellow; }
+    100% { color: white; }
+}
+
+
+
+
+/* ✅ Live Menu (Initially Hidden) */
+.live-menu {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+/* ✅ Live Menu Buttons */
+.live-btn {
+    position: absolute;
+    background: blue;
+    color: white;
+    border: 2px solid white;
+    padding: 2px 3px;
+    border-radius: 8px;
+    display: none; /* ✅ Pehle Hide Rahega */
+}
+
+/* ✅ Buttons Position */
+#sponBtn { 
+  
+  top: 110px; 
+  right: 114px; 
+  transform: translateX(-50%); 
+  
+}
+#controlBtn {
+   right: 108px; top: -6px; 
+  
+  
+}
+#liveStatsBtn { 
+  
+  
+  right: 136px; top: 35px;
+  
+  
+}
+#tourStatsBtn {
+  
+  top: 72px; 
+  right: 95px; 
+  transform: translateX(-50%); 
+  
+  
+}
+
+
+/* ✅ CONTROL MENU */
+.control-menu {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    height: 60px;
+    width: 70px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+    font-size: 10px;
+    color: yellow;
+   
+}   
+ 
+
+/* ✅ Categories List */
+.control-menu ul {
+    list-style: none;
+    padding: 10px;
+    width: 60px;
+    font-size: 10px;
+    Color : white;
+    font-weight: bold;
+    position: fixed;
+    top: 30px;
+}
+
+.control-menu ul li {
+    background: red;
+    padding: 2px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+
+/* ✅ Next Ball Section */
+.next-ball-container {
+    display: block;
+    position: fixed;
+    height: 0px;
+    justify-content: space-between;
+}
+
+/* ✅ Left Side - Extras */
+.extras-category {
+    position: fixed;
+    top: 30px;
+    width: 100px;
+    height: 30px;
+    left: 20px;
+  
+  
+}
+
+
+
+.legal-category {
+    position: fixed;
+    top: 30px;
+    width: 100px;
+    height: 30px;
+    left: 110px;
+   
+    
+}
+
+
+/* ✅ Timeline Box */
+.timeline {
+    text-align: center;
+    font-size: 2px;
+    font-weight: bold;
+    color: white;
+    width: 100px;
+    margin-top: 70px;
+    position: absolute;
+    z-index: 302;
+}
+
+/* ✅ Timeline Balls */
+#timelineBalls {
+    display: inline-block;
+    justify-content: center;
+    gap: 20px;
+    font-size: 20px;
+    background: transparent;
+    padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 165px;
+}
+
+  /* ✅ Strike Indicator */
+#batsman1Indicator { 
+    font-size: 20px;
+    color: yellow;
+    font-weight: bold;
+    display: inline-block;
+    width: 20px;
+    margin-top: 20px;
+    position: fixed;
+    margin-left: -40px;
+}
+
+#batsman2Indicator {
+    font-size: 20px;
+    color: yellow;
+    font-weight: bold;
+    display: inline-block;
+    width: 20px;
+    margin-top: 20px;
+    position: fixed;
+    margin-left: -40px;
+
+
+
+}
+
+#controlBtn {
+  
+  position: fixed;
+  top: 170px;
+  height: 30px;
+  width: 70px;
+  border: 2px solid yellow;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px 0;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Menu Button -->
+    
+
+
+    <div class="menu-btn" id="menuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+        
+        
+    <!-- Navigation Menu -->
+    <div class="menu-container" id="menu">
+       
+      
+      <!-- ✅ CONTROL BUTTON (Menu Bar me) -->
+
+<button id="controlBtn" class="menu-btn" onclick="toggleControlMenu()">CONTROL</button>
+
+
+
+<!-- ✅ CONTROL MENU (Initially Hidden) -->
+<div id="controlMenu" class="control-menu" style="display: none;">
+    <h3>CONTROL PANEL</h3>
+    <ul>
+        <li onclick="openCategory('nextBall')">Next Ball</li>
+        <li onclick="openCategory('nextPlay')">Next Play</li>
+        <li onclick="openCategory('loksBox')">LOKSBOX</li>
+    </ul>
+
+    <!-- ✅ NEXT BALL SUB-MENU (Initially Hidden) -->
+    <div id="nextBallMenu" class="sub-menu" style="display: none;">
+        <h4>Next Ball</h4>
+        
+        <div class="next-ball-container">
+            <!-- ✅ Left Side - Extras -->
+            <div class="extras-category">
+                <h5>Extras</h5>
+                <label><input type="checkbox" name="extras" value="1Lb"> 1Lb</label>
+                <label><input type="checkbox" name="extras" value="2Lb"> 2Lb</label>
+                <label><input type="checkbox" name="extras" value="3Lb"> 3Lb</label>
+                <label><input type="checkbox" name="extras" value="4Lb"> 4Lb</label>
+                <label><input type="checkbox" name="extras" value="1B"> 1B</label>
+                <label><input type="checkbox" name="extras" value="2B"> 2B</label>
+                <label><input type="checkbox" name="extras" value="3B"> 3B</label>
+                <label><input type="checkbox" name="extras" value="4B"> 4B</label>
+                <label><input type="checkbox" name="extras" value="1wd"> 1wd</label>
+                <label><input type="checkbox" name="extras" value="2wd"> 2wd</label>
+                <label><input type="checkbox" name="extras" value="3wd"> 3wd</label>
+                <label><input type="checkbox" name="extras" value="4wd"> 4wd</label>
+                <label><input type="checkbox" name="extras" value="1nb"> 1nb</label>
+                <label><input type="checkbox" name="extras" value="2nb"> 2nb</label>
+                <label><input type="checkbox" name="extras" value="3nb"> 3nb</label>
+                <label><input type="checkbox" name="extras" value="4nb"> 4nb</label>
+                <label><input type="checkbox" name="extras" value="6nb"> 6nb</label>
+            </div>
+
+            <!-- ✅ Right Side - Legal Runs -->
+            <div class="legal-category">
+                <h5>Legal Runs</h5>
+                <label><input type="radio" name="legalRuns" value="0"> Dot</label>
+                <label><input type="radio" name="legalRuns" value="1"> +1</label>
+                <label><input type="radio" name="legalRuns" value="2"> +2</label>
+                <label><input type="radio" name="legalRuns" value="3"> +3</label>
+                <label><input type="radio" name="legalRuns" value="4"> +4</label>
+                <label><input type="radio" name="legalRuns" value="5"> +5</label>
+                <label><input type="radio" name="legalRuns" value="6"> +6</label>
+                <label><input type="radio" name="legalRuns" value="W"> Wicket</label>
+            </div>
+        </div>
+
+        <!-- ✅ Update & Undo Buttons -->
+        <button onclick="updateScore()">Update</button>
+        <button onclick="undoLastAction()">Undo</button>
+    </div>
+</div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       <!-- ✅ GO LIVE Button (Initially Hidden) -->
+<button id="goLiveBtn" class="go-live-btn" onclick="toggleLiveMenu()" style="display: none;">GO LIVE</button>
+
+<!-- ✅ Hidden Live Menu Buttons -->
+<div id="liveMenu" class="live-menu" style="display: none;">
+    <button class="live-btn" id="sponBtn">SPON</button>
+    <button class="live-btn" id="controlBtn">CONTROL</button>
+    <button class="live-btn" id="liveStatsBtn">LIVESTATS</button>
+    <button class="live-btn" id="tourStatsBtn">TOURSTATS</button>
+</div>
+       
+       <!-- ✅ Fixed Create Match Button -->
+<button id="createMatchFixedBtn">CREATE MATCH</button> 
+
+       
+    
+        
+        
+        
+        <button class="menu-nav eye-icon" onclick="toggleMenuCategories()">
+    <img id="eyeImg" src="https://hankmyjob.odoo.com/web/image/444-16a4b3e4/20250326_002220.webp" alt="">
+    
+    
+</button>
+        
+      
+        
+        
+
+        <ul class="menu-list" id="menuList">
+          <li class="active" onclick="showSection(0)">Home</li>
+            <li onclick="showSection(1)">Live</li>
+            <li onclick="showSection(3)">GRAP</li>
+            <li onclick="showSection(4)">Settings</li>
+        </ul>
+
+       
+       
+       
+       </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  
+  
+  
+    <!-- Content Sections -->
+    <div class="content-section active" id="section0">
+      
+      
+      <!-- ✅ Timeline Box (Recent Balls) -->
+<div id="timelineBox" class="timeline">
+    <h4>Timeline:</h4>
+    <div id="timelineBalls">- - - - - -</div>
+</div>
+      
+      
+      
+      
+      
+    <div class="score-board">
+    <div class="team-score">
+        <span id="battingTeamDisplay" class="batting-team">ABC</span>
+        <span id="scoreDisplay" class="match-score">0-0</span>
+        <span id="bowlingTeamDisplay" class="bowling-team">XYZ</span>
+    </div>
+</div>
+    
+    
+    <div class="overs-box">
+        <span id="oversDisplay">0</span>
+    </div>
+</div>
+
+<!-- ✅ Batsmen & Bowler Display -->
+<div class="players-container">
+    <!-- ✅ Batsman 1 -->
+    <div class="batsman">
+      
+        <img id="batsman1Image" src="" alt="Batsman 1">
+        
+        <span id="batsman1Indicator">▶</span>
+        
+        <p id="batsman1Name">Batsman 1</p>
+        <p id="batsman1Stats">0 (0)</p>
+    </div>
+
+    <!-- ✅ Batsman 2 -->
+    <div class="batsman">
+        <img id="batsman2Image" src="" alt="Batsman 2">
+        
+           <span id="batsman2Indicator"></span>
+        
+        <p id="batsman2Name">Batsman 2</p>
+        <p id="batsman2Stats">0 (0)</p>
+    </div>
+
+    <!-- ✅ Bowler -->
+    <div class="bowler">
+        <img id="bowlerImage" src="" alt="Bowler">
+        <p id="bowlerName">Bowler</p>
+        <p id="bowlerStats">0-0 (0)</p>
+    </div>
+
+
+</div>
+    
+       
+         
+       <!-- ✅ Home Section Boxes (Without URL Input) -->
+<!-- ✅ Update Box -->
+<div class="update-box">UPDATE</div>
+
+<!-- ✅ Scrolling Text Box -->
+<div class="scroll-box">
+    <span class="scrolling-text" id="scrollText">Text Here</span>
+</div>
+<!-- ✅ Livebox -->
+<div class="box livebox" id="liveboxImage"></div>
+
+<!-- ✅ Temox (Left & Right Box) -->
+<div class="box temox-left" id="temoxLeftImage"></div>
+<div class="box temox-right" id="temoxRightImage"></div>
+
+<!-- ✅ Robox (Top & Bottom Box) -->
+<div class="box robox-top" id="roboxTopImage"></div>
+<div class="box robox-bottom" id="roboxBottomImage"></div>
+
+<!-- ✅ Rectox -->
+<div class="box rectox" id="rectoxImage"></div>
+
+
+</div>
+
+
+       <!-- ✅ Create Match Dialogue Box -->
+<div id="createMatchDialog" class="dialog-box">
+    <button class="close-btn" onclick="closeCreateMatchDialog()">✖</button>
+    <h2>Create Match</h2>
+    
+    
+    
+    <div class="dropdown-container">
+
+    <label for="overs">Overs:</label>
+        <select id="overs">
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="custom">Custom</option>
+        </select>
+    </div>
+    
+
+    <!-- ✅ Match Type Dropdown -->
+<div class="match-type-container">
+    <label for="matchType">Match Type:</label>
+    <select id="matchType">
+        <option value="T20">T20</option>
+        <option value="ODI">ODI</option>
+        <option value="TEST">TEST</option>
+        <option value="T10">T10</option>
+    </select>
+</div>
+<!-- ✅ Batsman 1 Selection -->
+<div class="player-selection-batsmen1">
+    <label for="batsman1">Batsman 1:</label>
+    <select id="batsman1" class="dropdown batsman-dropdown">
+        <option value="">-- Select --</option>
+    </select>
+</div>
+
+<!-- ✅ Batsman 2 Selection -->
+<div class="player-selection-batsmen2">
+    <label for="batsman2">Batsman 2:</label>
+    <select id="batsman2" class="dropdown batsman2-dropdown">
+        <option value="">-- Select --</option>
+    </select>
+</div>
+
+<!-- ✅ Bowler Selection -->
+<div class="player-selection-bowler">
+    <label for="bowler">Bowler:</label>
+    <select id="bowler" class="dropdown bowler-dropdown">
+        <option value="">-- Select --</option>
+    </select>
+</div>
+
+<!-- ✅ CREATE Button -->
+<button class="create-btn" onclick="createMatch()">CREATE</button>
+
+
+    <!-- ✅ Batting Team Section -->
+    <div class="team-box">
+        <input type="text" id="battingTeam" placeholder="Batting Team Name">
+        <button onclick="saveBattingTeam()">Save</button>
+        <button onclick="openPlayerDialog('batting')">Add Player</button>
+        <button class="view-players-btn" onclick="viewPlayers('batting')">View Players</button>
+    </div>
+
+    <!-- ✅ Bowling Team Section -->
+    <div class="team-box">
+        <input type="text" id="bowlingTeam" placeholder="Bowling Team Name">
+        <button onclick="saveBowlingTeam()">Save</button>
+        <button onclick="openPlayerDialog('bowling')">Add Player</button>
+        <button class="view-players-btn" onclick="viewPlayers('bowling')">View Players</button>
+    </div>
+
+    <!-- ✅ CREATE Button -->
+    <button class="create-btn" onclick="createMatch()">CREATE</button>
+
+    <!-- ✅ Cancel Button -->
+    <button class="cancel-btn" onclick="closeCreateMatchDialog()">Cancel</button>
+</div>
+
+<!-- ✅ Add Player Dialogue Box -->
+<div id="addPlayerDialog" class="player-dialog">
+    <h3>Add Player</h3>
+    <div class="player-photo" id="playerPhoto"></div>
+    <input type="text" id="playerName" placeholder="Enter Player Name">
+    <input type="text" id="playerImageURL" placeholder="Embed Image Link">
+    <button onclick="savePlayer()">Save Player</button>
+    <button class="cancel-btn" onclick="closePlayerDialog()">Cancel</button>
+</div>
+<!-- ✅ View Players List Popup -->
+<div id="playersListDialog" class="players-list-dialog" style="display: none;">
+    <h3>Players List</h3>
+
+    <!-- ✅ Scrollable Player List -->
+    <div id="playersListContainer">
+        <ul id="playersList"></ul>
+    </div>
+
+    <button class="cancel-btn" onclick="closePlayersListDialog()">Close</button>
+</div>
+
+      
+</div>    
+    
+
+
+
+
+ 
+       </div>
+     </div>
+   </div>
+   
+   
+  
+   
+   
+   
+   
+   
+   
+    
+    
+    
+    <div class="content-section" id="section1">
+        <h2>Live Section</h2>
+    </div>
+    
+    <div class="content-section" id="section2">
+
+
+
+    
+    
+    
+
+  </div>
+    
+    
+    
+    <div class="content-section" id="section3">
+        <h2>Grap Section</h2>
+    </div>
+    
+    
+    
+    
+  
+
+<div class="content-section" id="section4">
+    
+
+    <!-- ✅ Dropdown Menu -->
+    <div class="settings-container">
+        <label for="category">Select Category:</label>
+        <select id="category" onchange="showCategory()">
+            <option value="">-- Select --</option>
+            <option value="marqo">Marqo Text Box</option>
+            <option value="livebox">Livebox</option>
+            <option value="temox">Temox</option>
+            <option value="robox">Robox</option>
+            <option value="rectox">Rectox</option>
+        </select>
+    </div>
+
+    <!-- ✅ Different Sections (Hidden by Default) -->
+    <div id="marqo" class="category-section">
+        <div class="update-box">UPDATE</div>
+        <div class="scroll-box" id="scrollText">Text Here</div>
+
+        <div class="marqo-rows">
+            <div><span>1.</span> <input type="text" id="row1"> <input type="checkbox" class="row-checkbox" onchange="selectRow(1)"> <button onclick="saveRow(1)">Save</button></div>
+            <div><span>2.</span> <input type="text" id="row2"> <input type="checkbox" class="row-checkbox" onchange="selectRow(2)"> <button onclick="saveRow(2)">Save</button></div>
+            <div><span>3.</span> <input type="text" id="row3"> <input type="checkbox" class="row-checkbox" onchange="selectRow(3)"> <button onclick="saveRow(3)">Save</button></div>
+            <div><span>4.</span> <input type="text" id="row4"> <input type="checkbox" class="row-checkbox" onchange="selectRow(4)"> <button onclick="saveRow(4)">Save</button></div>
+            <div><span>5.</span> <input type="text" id="row5"> <input type="checkbox" class="row-checkbox" onchange="selectRow(5)"> <button onclick="saveRow(5)">Save</button></div>
+            <div><span>6.</span> <input type="text" id="row6"> <input type="checkbox" class="row-checkbox" onchange="selectRow(6)"> <button onclick="saveRow(6)">Save</button></div>
+        </div>
+    </div>
+
+
+
+    <div id="livebox" class="category-section">
+        <div class="box livebox" id="liveboxImage">LBOX</div>
+        <input type="text" class="url-box" id="liveboxUrl" placeholder="Image URL">
+        <button onclick="setImage('liveboxImage', 'liveboxUrl')">Set Image</button>
+    </div>
+
+ 
+ <!-- ✅ Temox -->
+    <div id="temox" class="category-section">
+        <div class="box temox-left" id="temoxLeftImage">LRT</div>
+        <input type="text" class="url-box" id="temoxLeftUrl" placeholder="Image URL">
+        <button onclick="setImage('temoxLeftImage', 'temoxLeftUrl')">Set Image</button>
+
+        <div class="box temox-right" id="temoxRightImage">RRT</div>
+        <input type="text" class="url-box" id="temoxRightUrl" placeholder="Image URL">
+        <button onclick="setImage('temoxRightImage', 'temoxRightUrl')">Set Image</button>
+    </div>
+
+    <!-- ✅ Robox -->
+    <div id="robox" class="category-section">
+        <div class="box robox-top" id="roboxTopImage">RNS</div>
+        <input type="text" class="url-box" id="roboxTopUrl" placeholder="Image URL">
+        <button onclick="setImage('roboxTopImage', 'roboxTopUrl')">Set Image</button>
+
+        <div class="box robox-bottom" id="roboxBottomImage">TML</div>
+        <input type="text" class="url-box" id="roboxBottomUrl" placeholder="Image URL">
+        <button onclick="setImage('roboxBottomImage', 'roboxBottomUrl')">Set Image</button>
+    </div>
+
+    <!-- ✅ Rectox -->
+    <div id="rectox" class="category-section">
+        <div class="box rectox">RECTOX</div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+    <!-- JavaScript Code -->
+    <script>
+        let currentIndex = 0;
+
+        document.getElementById("menuBtn").addEventListener("click", function () {
+            this.classList.toggle("active");
+            document.getElementById("menu").classList.toggle("show");
+        });
+
+      
+    function showSection(index) {
+        // ✅ Sabhi sections ko hide karo
+        document.querySelectorAll('.content-section').forEach((section) => {
+            section.classList.remove('active');
+        });
+
+        // ✅ Active section dikhane ke liye class add karo
+        document.getElementById(`section${index}`).classList.add('active');
+
+        // ✅ Menu items ka active class properly set karo
+        document.querySelectorAll('.menu-list li').forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+    
+
+            highlightActivePagination(index);
+        }
+
+      function showSection(index) {
+    // ✅ Sabhi sections ko hide karo
+    document.querySelectorAll('.content-section').forEach((section, i) => {
+        section.classList.toggle('active', i === index);
+    });
+
+    // ✅ Active category highlight karo
+    document.querySelectorAll('.menu-list li').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+    });
+}
+
+        function updatePagination() {
+            let pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            document.querySelectorAll(".menu-list li").forEach((_, index) => {
+                let span = document.createElement("span");
+                span.onclick = () => showSection(index);
+                pagination.appendChild(span);
+            });
+
+            highlightActivePagination(0);
+        }
+
+        function highlightActivePagination(index) {
+            let dots = document.querySelectorAll(".pagination span");
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        updatePagination();
+        
+        
+        </script>
+  <script>
+        
+        
+    
+    
+
+
+let isHidden = false; // Track toggle state
+
+function toggleMenuCategories() {
+    let menuItems = document.querySelectorAll(".menu-list li");
+    let activeItem = document.querySelector(".menu-list li.active");
+    let eyeImg = document.getElementById("eyeImg");
+
+    menuItems.forEach(item => {
+        if (item !== activeItem && !item.classList.contains("eye-icon")) {
+            item.style.visibility = isHidden ? "visible" : "hidden"; // Hide/Show
+            item.style.opacity = isHidden ? "1" : "0"; // Smooth effect
+            item.style.transition = "opacity 0.3s ease-in-out";
+            item.style.position = isHidden ? "relative" : "absolute"; // Space bhi remove hoga
+        }
+    });
+
+    // Toggle eye icon image
+    eyeImg.src = isHidden ? "https://hankmyjob.odoo.com/web/image/445-d7d5d558/20250326_003217.webp" : "https://hankmyjob.odoo.com/web/image/444-16a4b3e4/20250326_002220.webp";
+
+    isHidden = !isHidden; // Flip state
+}
+
+
+
+
+</script>
+<script>
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // ✅ Options Data
+    const optionsData = {
+        ball: ["Wicket", "Dot", "+1", "+2", "+3", "+4", "+5", "+6"],
+        extras: ["Lb", "B", "WD", "OT", "Nb"],
+        wicket: ["Bowled", "Runout", "Caught", "LBW", "Hit Wicket", "Retired Hurt", "Stumped"],
+        pik: ["Custom 1", "Custom 2", "Custom 3", "Custom 4", "Custom 5"]
+    };
+
+    // ✅ Selected Option ko Show Karne Ka Function
+    function showSelectedOption(category, optionText) {
+        let displayElement = document.getElementById("selected-option-display");
+        displayElement.innerText = `Selected (${category.toUpperCase()}): ${optionText}`;
+    }
+
+    // ✅ Options Load Karne Ka Function
+    function showOptions(category) {
+        console.log("Category clicked:", category); // Debugging ke liye
+        document.querySelectorAll(".dialog-category").forEach(cat => cat.classList.remove("active"));
+        let activeCategory = document.querySelector(`.dialog-category[data-category="${category}"]`);
+        if (activeCategory) {
+            activeCategory.classList.add("active");
+        }
+
+        let optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+        optionsContainer.setAttribute("data-category", category);
+
+        if (optionsData[category]) {
+            optionsData[category].forEach(option => {
+                let optionDiv = document.createElement("div");
+                optionDiv.classList.add("option");
+                optionDiv.innerHTML = `
+                    <span>${option}</span>
+                    <input type="radio" name="selected-option-${category}" value="${option}">
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.querySelectorAll(`input[name="selected-option-${category}"]`).forEach(input => {
+                input.addEventListener("change", function () {
+                    showSelectedOption(category, this.value);
+                });
+            });
+        } else {
+            console.error("Invalid category selected:", category);
+        }
+    }
+
+    // ✅ Sabhi Categories par Event Listener Lagao
+    document.querySelectorAll(".dialog-category").forEach(categoryButton => {
+        categoryButton.addEventListener("click", function () {
+            let category = this.getAttribute("data-category");
+            showOptions(category);
+        });
+    });
+
+    // ✅ By Default Ball Category Show Karo
+    showOptions('ball');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+  
+<script>
+
+
+// ✅ Dialogue Box Toggle Function for MAIN Button
+function toggleDialog() {
+    let dialogBox = document.getElementById("main-dialog");
+    let menuContainer = document.getElementById("menu");
+
+    // Agar already visible hai to hide kare
+    if (dialogBox.style.display === "block") {
+        dialogBox.style.display = "none";
+    } else {
+        dialogBox.style.display = "block";
+    }
+}
+
+// ✅ Hide Dialogue Box when other buttons are clicked
+function hideDialog() {
+    document.getElementById("main-dialog").style.display = "none";
+}
+
+// ✅ Apply Hide Function on Other Buttons
+document.getElementById("next-btn").addEventListener("click", hideDialog);
+document.getElementById("rict-btn").addEventListener("click", hideDialog);
+document.querySelectorAll(".menu-list li").forEach(item => {
+    item.addEventListener("click", hideDialog);
+});
+
+
+
+
+
+
+</script>
+<script>
+
+// ✅ Function to Show Specific Dialogue Box
+function showDialog(dialogId) {
+    let allDialogs = ["main-dialog", "next-dialog", "rict-dialog", "stet-dialog"];
+    
+    allDialogs.forEach(id => {
+        let dialog = document.getElementById(id);
+        if (dialog) {
+            if (id === dialogId) {
+                dialog.style.display = "block"; // ✅ Sirf selected dialogue box open hoga
+            } else {
+                dialog.style.display = "none"; // ✅ Baaki sab hide honge
+            }
+        }
+    });
+}
+
+// ✅ Attach Click Events to Buttons
+document.getElementById("main-btn").addEventListener("click", () => showDialog("main-dialog"));
+document.getElementById("next-btn").addEventListener("click", () => showDialog("next-dialog"));
+document.getElementById("rict-btn").addEventListener("click", () => showDialog("rict-dialog"));
+document.getElementById("stet-btn").addEventListener("click", () => showDialog("stet-dialog"));
+
+</script>
+<script>
+
+// ✅ RICT Options Data
+const rictOptionsData = {
+    "rict-mode": ["Automatic", "Manual", "AG" , "YH" ,],
+    "rict-settings": ["Speed", "Angle", "Power"]
+};
+
+// ✅ RICT Dialogue Box Options Show Karne Ka Function
+function showOptionsRict(category) {
+    let optionsContainer = document.getElementById("rict-options-container");
+    optionsContainer.innerHTML = "";
+    optionsContainer.setAttribute("data-category", category);
+
+    if (rictOptionsData[category]) {
+        rictOptionsData[category].forEach(option => {
+            let optionDiv = document.createElement("div");
+            optionDiv.classList.add("option");
+            optionDiv.innerHTML = `
+                <span>${option}</span>
+                <input type="radio" name="selected-option-${category}" value="${option}">
+            `;
+            optionsContainer.appendChild(optionDiv);
+        });
+
+        document.querySelectorAll(`input[name="selected-option-${category}"]`).forEach(input => {
+            input.addEventListener("change", function () {
+                document.getElementById("selected-option-display-rict").innerText = 
+                    `Selected (${category.toUpperCase()}): ${this.value}`;
+            });
+        });
+    }
+}
+
+// ✅ By Default "Mode" Category Show Karo
+showOptionsRict('rict-mode');
+
+
+</script>
+<script>
+
+// ✅ NEXT Options Data
+const nextOptionsData = {
+    "next-ball": ["ROHIT SHARMA", "Tilak Verma", "+2", "+3", "+4", "+5", "+6"],
+    "next-extras": ["Lb", "B", "WD", "OT", "Nb"]
+};
+
+// ✅ NEXT Dialogue Box Options Show Karne Ka Function
+function showOptions(category) {
+    let optionsContainer = document.getElementById("next-options-container");
+    optionsContainer.innerHTML = "";
+    optionsContainer.setAttribute("data-category", category);
+
+    if (nextOptionsData[category]) {
+        nextOptionsData[category].forEach(option => {
+            let optionDiv = document.createElement("div");
+            optionDiv.classList.add("option");
+            optionDiv.innerHTML = `
+                <span>${option}</span>
+                <input type="radio" name="selected-option-${category}" value="${option}">
+            `;
+            optionsContainer.appendChild(optionDiv);
+        });
+
+        document.querySelectorAll(`input[name="selected-option-${category}"]`).forEach(input => {
+            input.addEventListener("change", function () {
+                document.getElementById("selected-option-display-next").innerText = 
+                    `Selected (${category.toUpperCase()}): ${this.value}`;
+            });
+        });
+    }
+}
+
+// ✅ By Default "Next Ball" Category Show Karo
+showOptions('next-ball');
+
+
+</script>
+<script>
+
+
+// ✅ STET Options Data
+const stetOptionsData = {
+    "stet-config": ["Custom 1", "Custom 2", "Custom 3"],
+    "stet-tools": ["Tool A", "Tool B", "Tool C"]
+};
+
+// ✅ STET Dialogue Box Options Show Karne Ka Function
+function showOptionsStet(category) {
+    let optionsContainer = document.getElementById("stet-options-container");
+    optionsContainer.innerHTML = "";
+    optionsContainer.setAttribute("data-category", category);
+
+    if (stetOptionsData[category]) {
+        stetOptionsData[category].forEach(option => {
+            let optionDiv = document.createElement("div");
+            optionDiv.classList.add("option");
+            optionDiv.innerHTML = `
+                <span>${option}</span>
+                <input type="radio" name="selected-option-${category}" value="${option}">
+            `;
+            optionsContainer.appendChild(optionDiv);
+        });
+
+        document.querySelectorAll(`input[name="selected-option-${category}"]`).forEach(input => {
+            input.addEventListener("change", function () {
+                document.getElementById("selected-option-display-stet").innerText = 
+                    `Selected (${category.toUpperCase()}): ${this.value}`;
+            });
+        });
+    }
+}
+
+// ✅ By Default "Config" Category Show Karo
+showOptionsStet('stet-config');
+
+
+
+
+
+</script>
+  <script>
+  
+  
+  // ✅ Show Selected Category
+function showCategory() {
+    document.querySelectorAll('.category-section').forEach(el => el.style.display = "none");
+    let selected = document.getElementById("category").value;
+    if (selected) {
+        document.getElementById(selected).style.display = "block";
+    }
+}
+
+// ✅ Tick Box System (Only One Selected at a Time)
+function selectRow(row) {
+    document.querySelectorAll(".row-checkbox").forEach((cb, index) => {
+        cb.checked = index + 1 === row; // ✅ Sirf ek box select hoga
+    });
+
+    let text = document.getElementById(`row${row}`).value;
+    if (text) {
+        document.getElementById("scrollText").innerText = text;
+        localStorage.setItem("scrollingText", text); // ✅ Save text in LocalStorage
+        localStorage.setItem("selectedRow", row); // ✅ Save selected row
+    }
+}
+
+// ✅ Save Text in Row & LocalStorage
+function saveRow(row) {
+    let text = document.getElementById(`row${row}`).value;
+    if (text) {
+        localStorage.setItem(`rowText${row}`, text); // ✅ Save text for this row
+        document.getElementById("scrollText").innerText = text;
+        localStorage.setItem("scrollingText", text); // ✅ Save scrolling text
+        localStorage.setItem("selectedRow", row); // ✅ Save selected row
+    }
+}
+
+// ✅ Set Image from URL (With LocalStorage)
+function setImage(boxId, urlId) {
+    let url = document.getElementById(urlId).value.trim();
+    if (url) {
+        document.getElementById(boxId).style.backgroundImage = `url('${url}')`;
+        localStorage.setItem(boxId, url); // ✅ Save to LocalStorage
+    }
+}
+
+// ✅ Load Saved Data on Page Load
+window.onload = function () {
+    // ✅ Load Images
+    let imageBoxes = ["liveboxImage", "temoxLeftImage", "temoxRightImage", "roboxTopImage", "roboxBottomImage", "rectoxImage"];
+    imageBoxes.forEach(boxId => {
+        let savedImage = localStorage.getItem(boxId);
+        if (savedImage) {
+            document.getElementById(boxId).style.backgroundImage = `url('${savedImage}')`;
+        }
+    });
+
+    // ✅ Load Scrolling Text
+    let savedText = localStorage.getItem("scrollingText");
+    if (savedText) {
+        document.getElementById("scrollText").innerText = savedText;
+    }
+
+    // ✅ Load Selected Row & Tick Mark
+    let selectedRow = localStorage.getItem("selectedRow");
+    if (selectedRow) {
+        document.querySelector(`#row${selectedRow}`).previousElementSibling.checked = true;
+    }
+
+    // ✅ Load Saved Row Texts
+    for (let i = 1; i <= 6; i++) {
+        let savedRowText = localStorage.getItem(`rowText${i}`);
+        if (savedRowText) {
+            document.getElementById(`row${i}`).value = savedRowText;
+        }
+    }
+};
+  
+  
+  
+  
+  </script>
+  <script>
+  
+// ✅ CREATE MATCH Button Click Event
+document.getElementById("createMatchFixedBtn").addEventListener("click", function () {
+    document.getElementById("createMatchDialog").style.display = "block";
+});
+
+// ✅ Close Dialogue Box
+function closeCreateMatchDialog() {
+    document.getElementById("createMatchDialog").style.display = "none";
+}
+
+// ✅ Menu Open/Close Par Button Ko Show/Hide Karna
+document.getElementById("menuBtn").addEventListener("click", function () {
+    let menu = document.getElementById("menu");
+    let createMatchBtn = document.getElementById("createMatchFixedBtn");
+
+    if (menu.classList.contains("show")) {
+        createMatchBtn.style.display = "block"; // ✅ Menu open hone par button dikhega
+    } else {
+        createMatchBtn.style.display = "none"; // ✅ Menu close hone par button gayab hoga
+    }
+});
+  
+  
+  
+  
+  </script>
+  <script>
+  
+  function saveBattingTeam() {
+    let teamName = document.getElementById("battingTeam").value;
+    alert("Batting Team Saved: " + teamName);
+}
+
+function saveBowlingTeam() {
+    let teamName = document.getElementById("bowlingTeam").value;
+    alert("Bowling Team Saved: " + teamName);
+}
+
+function addPlayer(teamType) {
+    alert("Add Player to " + teamType + " Team");
+}
+
+function closeCreateMatchDialog() {
+    document.getElementById("createMatchDialog").style.display = "none";
+}
+  
+  
+  </script>
+  <script>
+  
+  let players = JSON.parse(localStorage.getItem("players")) || { batting: [], bowling: [] };
+let currentTeam = "";
+
+// ✅ Open Add Player Dialog
+function openPlayerDialog(team) {
+    currentTeam = team;
+    document.getElementById("addPlayerDialog").style.display = "block";
+}
+
+// ✅ Close Add Player Dialog
+function closePlayerDialog() {
+    document.getElementById("addPlayerDialog").style.display = "none";
+}
+
+// ✅ Save Player (LocalStorage me Save Hoga)
+function savePlayer() {
+    let name = document.getElementById("playerName").value;
+    let imageUrl = document.getElementById("playerImageURL").value;
+
+    if (name.trim() === "" || imageUrl.trim() === "") {
+        alert("Please enter player details.");
+        return;
+    }
+
+    players[currentTeam].push({ name, imageUrl });
+    localStorage.setItem("players", JSON.stringify(players)); // ✅ Save to LocalStorage
+    closePlayerDialog();
+    updateDropdowns(); // ✅ Dropdowns update karo
+}
+// ✅ View Players List (With Edit & Delete)
+function viewPlayers(team) {
+    let playersList = document.getElementById("playersList");
+    let playersListDialog = document.getElementById("playersListDialog");
+    playersList.innerHTML = "";
+
+    // ✅ Team Name Show karo
+    let teamName = localStorage.getItem(team + "Team") || team.toUpperCase();
+    let teamHeader = document.createElement("h3");
+    teamHeader.textContent = `Team: ${teamName}`;
+    teamHeader.style.textAlign = "center";
+    teamHeader.style.color = "blue";
+    playersList.appendChild(teamHeader);
+
+    // ✅ Agar players available hain toh list dikhaye
+    if (players[team].length > 0) {
+        players[team].forEach((player, index) => {
+            let li = document.createElement("li");
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.style.alignItems = "center";
+            li.style.marginBottom = "5px";
+
+            li.innerHTML = `
+                <strong>${index + 1}. ${player.name}</strong> 
+                <img src="${player.imageUrl}" width="30" style="border-radius: 5px;">
+                <button onclick="editPlayer('${team}', ${index})" style="background: orange; color: white; border: none; padding: 3px 8px; border-radius: 5px; cursor: pointer;">Edit</button>
+                <button onclick="deletePlayer('${team}', ${index})" style="background: red; color: white; border: none; padding: 3px 8px; border-radius: 5px; cursor: pointer;">Delete</button>
+            `;
+            playersList.appendChild(li);
+        });
+    } else {
+        let noPlayersMsg = document.createElement("p");
+        noPlayersMsg.textContent = "No players added yet.";
+        noPlayersMsg.style.textAlign = "center";
+        playersList.appendChild(noPlayersMsg);
+    }
+
+    playersListDialog.style.display = "block"; // ✅ Dialog box open karo
+}
+
+// ✅ Edit Player Function
+function editPlayer(team, index) {
+    let player = players[team][index];
+
+    // ✅ Existing values set karo
+    document.getElementById("playerName").value = player.name;
+    document.getElementById("playerImageURL").value = player.imageUrl;
+
+    // ✅ Save changes on button click
+    document.getElementById("savePlayerBtn").setAttribute("onclick", `updatePlayer('${team}', ${index})`);
+
+    // ✅ Pop-up open karo
+    document.getElementById("addPlayerDialog").style.display = "block";
+}
+
+// ✅ Update Player Function
+function updatePlayer(team, index) {
+    let newName = document.getElementById("playerName").value;
+    let newImageUrl = document.getElementById("playerImageURL").value;
+
+    if (newName.trim() === "" || newImageUrl.trim() === "") {
+        alert("Please enter player details.");
+        return;
+    }
+
+    // ✅ Update player data
+    players[team][index].name = newName;
+    players[team][index].imageUrl = newImageUrl;
+
+    // ✅ Save to LocalStorage
+    localStorage.setItem("players", JSON.stringify(players));
+
+    // ✅ Close pop-up & refresh list
+    closePlayerDialog();
+    viewPlayers(team);
+}
+
+// ✅ Delete Player Function
+function deletePlayer(team, index) {
+    if (confirm("Are you sure you want to delete this player?")) {
+        players[team].splice(index, 1); // ✅ Player remove karo
+        localStorage.setItem("players", JSON.stringify(players)); // ✅ Save changes
+        viewPlayers(team); // ✅ Refresh list
+    }
+}
+
+
+// ✅ Close Players List Dialog
+function closePlayersListDialog() {
+    document.getElementById("playersListDialog").style.display = "none";
+}
+
+// ✅ Save Batting Team Name
+function saveBattingTeam() {
+    let teamName = document.getElementById("battingTeam").value;
+    localStorage.setItem("battingTeam", teamName);
+    alert("Batting Team Saved: " + teamName);
+    updateDropdowns();
+}
+
+// ✅ Save Bowling Team Name
+function saveBowlingTeam() {
+    let teamName = document.getElementById("bowlingTeam").value;
+    localStorage.setItem("bowlingTeam", teamName);
+    alert("Bowling Team Saved: " + teamName);
+    updateDropdowns();
+}
+
+// ✅ Update Dropdowns Function
+function updateDropdowns() {
+    let batsman1Dropdown = document.getElementById("batsman1");
+    let batsman2Dropdown = document.getElementById("batsman2");
+    let bowlerDropdown = document.getElementById("bowler");
+
+    // ✅ Clear previous options
+    batsman1Dropdown.innerHTML = `<option value="">-- Select --</option>`;
+    batsman2Dropdown.innerHTML = `<option value="">-- Select --</option>`;
+    bowlerDropdown.innerHTML = `<option value="">-- Select --</option>`;
+
+    // ✅ Load Batting Players for Batsman 1
+    players.batting.forEach(player => {
+        let option = document.createElement("option");
+        option.value = player.name;
+        option.textContent = player.name;
+        batsman1Dropdown.appendChild(option);
+    });
+
+    // ✅ Load Bowling Players for Bowler
+    players.bowling.forEach(player => {
+        let option = document.createElement("option");
+        option.value = player.name;
+        option.textContent = player.name;
+        bowlerDropdown.appendChild(option);
+    });
+
+    // ✅ Update Batsman 2 when Batsman 1 is selected
+    batsman1Dropdown.addEventListener("change", function () {
+        updateBatsman2Options();
+    });
+
+    updateBatsman2Options(); // ✅ Batsman 2 ko bhi update karo
+}
+
+// ✅ Update Batsman 2 options dynamically
+function updateBatsman2Options() {
+    let batsman1Value = document.getElementById("batsman1").value;
+    let batsman2Dropdown = document.getElementById("batsman2");
+
+    // ✅ Remove Batsman 1 from Batsman 2 list
+    batsman2Dropdown.innerHTML = `<option value="">-- Select --</option>`;
+    players.batting.forEach(player => {
+        if (player.name !== batsman1Value) {  // ✅ Batsman 1 selected player ko hatao
+            let option = document.createElement("option");
+            option.value = player.name;
+            option.textContent = player.name;
+            batsman2Dropdown.appendChild(option);
+        }
+    });
+}
+
+// ✅ Set Image from URL (With LocalStorage)
+function setImage(boxId, urlId) {
+    let url = document.getElementById(urlId).value.trim();
+    if (url) {
+        document.getElementById(boxId).style.backgroundImage = `url('${url}')`;
+        localStorage.setItem(boxId, url); // ✅ Save to LocalStorage
+    }
+}
+
+// ✅ Load Saved Data on Page Load
+window.onload = function () {
+    players = JSON.parse(localStorage.getItem("players")) || { batting: [], bowling: [] };
+
+    document.getElementById("battingTeam").value = localStorage.getItem("battingTeam") || "";
+    document.getElementById("bowlingTeam").value = localStorage.getItem("bowlingTeam") || "";
+    document.getElementById("matchType").value = localStorage.getItem("matchType") || "T20";
+    document.getElementById("overs").value = localStorage.getItem("overs") || "20";
+
+    updateDropdowns(); // ✅ Dropdowns ko page load par update karo
+
+    // ✅ Load Images
+    let imageBoxes = ["liveboxImage", "temoxLeftImage", "temoxRightImage", "roboxTopImage", "roboxBottomImage", "rectoxImage"];
+    imageBoxes.forEach(boxId => {
+        let savedImage = localStorage.getItem(boxId);
+        if (savedImage) {
+            document.getElementById(boxId).style.backgroundImage = `url('${savedImage}')`;
+        }
+    });
+};
+
+// ✅ Create Match Function
+function createMatch() {
+    saveMatchSettings();
+    alert("Match Created Successfully!");
+}
+  
+  
+  </script>
+  
+  <script>
+  
+  // ✅ Create Match Function (Data Home Section me Set Karna)
+function createMatch() {
+    // ✅ Team Names
+    let battingTeam = document.getElementById("battingTeam").value;
+    let bowlingTeam = document.getElementById("bowlingTeam").value;
+
+    // ✅ Selected Players
+    let batsman1 = document.getElementById("batsman1").value;
+    let batsman2 = document.getElementById("batsman2").value;
+    let bowler = document.getElementById("bowler").value;
+
+    // ✅ Players ka Data (LocalStorage se)
+    let batsman1Data = players.batting.find(p => p.name === batsman1);
+    let batsman2Data = players.batting.find(p => p.name === batsman2);
+    let bowlerData = players.bowling.find(p => p.name === bowler);
+
+    // ✅ Home Section me Data Set Karo
+    document.getElementById("battingTeamDisplay").textContent = battingTeam || "ABC";
+    document.getElementById("scoreDisplay").textContent = "0-0";
+    document.getElementById("bowlingTeamDisplay").textContent = bowlingTeam || "XYZ";
+    document.getElementById("oversDisplay").textContent = "0";
+
+    // ✅ Batsman 1 Data
+    document.getElementById("batsman1Name").textContent = batsman1 || "Batsman 1";
+    document.getElementById("batsman1Stats").textContent = "0 (0)";
+    document.getElementById("batsman1Image").src = batsman1Data ? batsman1Data.imageUrl : "";
+
+    // ✅ Batsman 2 Data
+    document.getElementById("batsman2Name").textContent = batsman2 || "Batsman 2";
+    document.getElementById("batsman2Stats").textContent = "0 (0)";
+    document.getElementById("batsman2Image").src = batsman2Data ? batsman2Data.imageUrl : "";
+
+    // ✅ Bowler Data
+    document.getElementById("bowlerName").textContent = bowler || "Bowler";
+    document.getElementById("bowlerStats").textContent = "0-0 (0)";
+    document.getElementById("bowlerImage").src = bowlerData ? bowlerData.imageUrl : "";
+
+  
+  
+  // ✅ GO LIVE Button Show Karo
+    document.getElementById("goLiveBtn").style.display = "block";
+
+    alert("Match Created Successfully!");
+}
+
+// ✅ Toggle Live Menu Buttons
+function toggleLiveMenu() {
+    let liveMenu = document.getElementById("liveMenu");
+    let buttons = document.querySelectorAll(".live-btn");
+
+    if (liveMenu.style.display === "none" || liveMenu.style.display === "") {
+        liveMenu.style.display = "block";
+
+        // ✅ Show all 4 buttons
+        buttons.forEach(btn => btn.style.display = "block");
+    } else {
+        liveMenu.style.display = "none";
+
+        // ✅ Hide all 4 buttons
+        buttons.forEach(btn => btn.style.display = "none");
+    }
+}
+  
+  
+  </script>
+  <script>
+  
+  
+  // ✅ Control Menu Toggle
+function toggleControlMenu() {
+    let menu = document.getElementById("controlMenu");
+    menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+}
+
+// ✅ Open Selected Category
+function openCategory(category) {
+    document.getElementById("nextBallMenu").style.display = (category === "nextBall") ? "block" : "none";
+}
+
+let ballsInOver = 0; // ✅ Track Balls
+let striker = "batsman1"; // ✅ Track Striker
+let bowlerOvers = 0; // ✅ Track Bowler Overs
+let bowlerBalls = 0; // ✅ Track Bowler Balls
+
+// ✅ Update Score Function
+function updateScore() {
+    let selectedRun = document.querySelector('input[name="legalRuns"]:checked');
+    let selectedExtras = document.querySelectorAll('input[name="extras"]:checked');
+    
+    let runs = selectedRun ? (selectedRun.value === "W" ? 0 : parseInt(selectedRun.value)) : 0;
+    let extras = 0;
+    let isWicket = selectedRun && selectedRun.value === "W";
+
+    selectedExtras.forEach(extra => {
+        extras += parseInt(extra.value);
+    });
+
+    let totalRuns = runs + extras;
+    let ballResult = isWicket ? "W" : totalRuns; // ✅ If Wicket, show "W"
+
+    // ✅ Update Timeline (Last 6 Balls Only)
+    let timeline = document.getElementById("timelineBalls").textContent.split(" ");
+    if (timeline.length >= 6) {
+        timeline.shift(); // ✅ Remove Oldest Ball
+    }
+    timeline.push(ballResult);
+    document.getElementById("timelineBalls").textContent = timeline.join(" ");
+
+    // ✅ Update Team Score
+    let currentScore = document.getElementById("scoreDisplay").textContent.split("-");
+    let newScore = parseInt(currentScore[0]) + totalRuns;
+    let newWickets = isWicket ? parseInt(currentScore[1]) + 1 : parseInt(currentScore[1]);
+
+    document.getElementById("scoreDisplay").textContent = `${newScore}-${newWickets}`;
+
+    // ✅ Update Overs & Balls
+    ballsInOver++;
+    bowlerBalls++; // ✅ Bowler ki Balls count karo
+    let currentBalls = parseInt(document.getElementById("oversDisplay").textContent);
+    
+    if (ballsInOver === 6) {
+        ballsInOver = 0; // ✅ Reset Ball Count
+        currentBalls++; // ✅ Add Over
+        bowlerBalls = 0; // ✅ Bowler ki Balls reset karo
+        bowlerOvers++; // ✅ Bowler ki Over count badhao
+        swapStrike(); // ✅ Swap Strike After Over
+    }
+    
+    document.getElementById("oversDisplay").textContent = currentBalls + "." + ballsInOver;
+
+    // ✅ Update Batsmen Runs & Balls
+    let batsmanRuns = document.getElementById(striker + "Stats").textContent.split(" ")[0];
+    let batsmanBalls = document.getElementById(striker + "Stats").textContent.split("(")[1];
+
+    batsmanRuns = parseInt(batsmanRuns) + totalRuns;
+    batsmanBalls = parseInt(batsmanBalls) + 1;
+    
+    document.getElementById(striker + "Stats").textContent = `${batsmanRuns} (${batsmanBalls})`;
+
+    // ✅ Swap Strike on Odd Runs
+    if (totalRuns % 2 !== 0) {
+        swapStrike();
+    }
+
+    // ✅ Update Bowler Stats (Over Count + Balls Reset)
+    let bowlerRuns = parseInt(document.getElementById("bowlerStats").textContent.split("-")[1].split("(")[0]) + totalRuns;
+    let bowlerWickets = isWicket ? parseInt(document.getElementById("bowlerStats").textContent.split("-")[0]) + 1 : parseInt(document.getElementById("bowlerStats").textContent.split("-")[0]);
+
+    document.getElementById("bowlerStats").textContent = `${bowlerWickets}-${bowlerRuns} (${bowlerOvers}.${bowlerBalls})`;
+
+    
+}
+
+// ✅ Swap Strike Function
+function swapStrike() {
+    if (striker === "batsman1") {
+        striker = "batsman2";
+        document.getElementById("batsman1Indicator").textContent = "";
+        document.getElementById("batsman2Indicator").textContent = "▶";
+    } else {
+        striker = "batsman1";
+        document.getElementById("batsman1Indicator").textContent = "▶";
+        document.getElementById("batsman2Indicator").textContent = "";
+    }
+}
+  
+  
+</script>
+</body>
+</html>
